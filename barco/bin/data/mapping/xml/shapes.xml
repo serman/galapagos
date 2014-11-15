@@ -1,0 +1,62 @@
+<root>
+    <shape id="0">
+        <setting key="type">quad</setting>
+        <outputVertices>
+            <vertex x="-6" y="0"></vertex>
+            <vertex x="609" y="-3"></vertex>
+            <vertex x="612" y="411"></vertex>
+            <vertex x="-1" y="416"></vertex>
+        </outputVertices>
+        <inputPolygon>
+            <vertex x="0" y="0"></vertex>
+            <vertex x="481" y="0"></vertex>
+            <vertex x="481" y="479"></vertex>
+            <vertex x="0" y="479"></vertex>
+        </inputPolygon>
+    </shape>
+    <shape id="1">
+        <setting key="type">quad</setting>
+        <outputVertices>
+            <vertex x="722" y="19"></vertex>
+            <vertex x="1085" y="18"></vertex>
+            <vertex x="1089" y="429"></vertex>
+            <vertex x="715" y="419"></vertex>
+        </outputVertices>
+        <inputPolygon>
+            <vertex x="480" y="-1"></vertex>
+            <vertex x="961" y="-1"></vertex>
+            <vertex x="961" y="521"></vertex>
+            <vertex x="480" y="521"></vertex>
+        </inputPolygon>
+    </shape>
+    <shape id="2">
+        <setting key="type">quad</setting>
+        <outputVertices>
+            <vertex x="427" y="439"></vertex>
+            <vertex x="899" y="434"></vertex>
+            <vertex x="902" y="703"></vertex>
+            <vertex x="426" y="699"></vertex>
+        </outputVertices>
+        <inputPolygon>
+            <vertex x="403" y="521"></vertex>
+            <vertex x="814" y="521"></vertex>
+            <vertex x="814" y="730"></vertex>
+            <vertex x="403" y="730"></vertex>
+        </inputPolygon>
+    </shape>
+    <shape id="3">
+        <setting key="type">quad</setting>
+        <outputVertices>
+            <vertex x="64" y="453"></vertex>
+            <vertex x="314" y="457"></vertex>
+            <vertex x="312" y="641"></vertex>
+            <vertex x="67" y="646"></vertex>
+        </outputVertices>
+        <inputPolygon>
+            <vertex x="1" y="480"></vertex>
+            <vertex x="319" y="480"></vertex>
+            <vertex x="319" y="719"></vertex>
+            <vertex x="1" y="719"></vertex>
+        </inputPolygon>
+    </shape>
+</root>
