@@ -3,8 +3,10 @@
 #include "ofMain.h"
 #include "barcos.h"
 #include "cameraTracking.h"
+#include "cheapComm.h"
+#define TOTAL_BARCOS 30
 class ofApp : public ofBaseApp{
-
+    enum statuses{SINJUGADOR, JUGANDO,FIN};
 	public:
 		void setup();
 		void update();
@@ -21,6 +23,15 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
         barcosManager mbarcos;
         tracking mtracking;
+    ofTrueTypeFont helvetica1;
     ofImage mapa;
     ofxUICanvas *gui;
+    int gameStatus;
+    float timeChangeStatus;
+    void drawMarcador();
+    void drawIntroMsg();
+    
+    
+    
+    
 };

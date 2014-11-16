@@ -46,6 +46,8 @@
 		F7B352E61A17CA64005B8A30 /* Syphon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7B352DF1A17CA64005B8A30 /* Syphon.framework */; };
 		F7B352E71A17CA64005B8A30 /* SyphonNameboundClient.m in Sources */ = {isa = PBXBuildFile; fileRef = F7B352E21A17CA64005B8A30 /* SyphonNameboundClient.m */; };
 		F7B352E81A17CABB005B8A30 /* Syphon.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F7B352DF1A17CA64005B8A30 /* Syphon.framework */; };
+		F7B3532E1A18927C005B8A30 /* cheapCommRcv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7B3532A1A18927C005B8A30 /* cheapCommRcv.cpp */; };
+		F7B3532F1A18927C005B8A30 /* osc_match.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7B3532C1A18927C005B8A30 /* osc_match.cpp */; };
 		F7D9565A1A1675140023A2FB /* ofxMtlMapping2DControls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7D9563A1A1675140023A2FB /* ofxMtlMapping2DControls.cpp */; };
 		F7D9565B1A1675140023A2FB /* ofxMtlMapping2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7D9563C1A1675140023A2FB /* ofxMtlMapping2D.cpp */; };
 		F7D9565C1A1675140023A2FB /* ofxMtlMapping2DShapes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7D9563F1A1675140023A2FB /* ofxMtlMapping2DShapes.cpp */; };
@@ -227,6 +229,10 @@
 		F7B352DF1A17CA64005B8A30 /* Syphon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Syphon.framework; sourceTree = "<group>"; };
 		F7B352E11A17CA64005B8A30 /* SyphonNameboundClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SyphonNameboundClient.h; sourceTree = "<group>"; };
 		F7B352E21A17CA64005B8A30 /* SyphonNameboundClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SyphonNameboundClient.m; sourceTree = "<group>"; };
+		F7B3532A1A18927C005B8A30 /* cheapCommRcv.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cheapCommRcv.cpp; sourceTree = "<group>"; };
+		F7B3532B1A18927C005B8A30 /* cheapCommRcv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cheapCommRcv.h; sourceTree = "<group>"; };
+		F7B3532C1A18927C005B8A30 /* osc_match.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = osc_match.cpp; sourceTree = "<group>"; };
+		F7B3532D1A18927C005B8A30 /* osc_match.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = osc_match.h; sourceTree = "<group>"; };
 		F7D9563A1A1675140023A2FB /* ofxMtlMapping2DControls.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxMtlMapping2DControls.cpp; sourceTree = "<group>"; };
 		F7D9563B1A1675140023A2FB /* ofxMtlMapping2DControls.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxMtlMapping2DControls.h; sourceTree = "<group>"; };
 		F7D9563C1A1675140023A2FB /* ofxMtlMapping2D.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxMtlMapping2D.cpp; sourceTree = "<group>"; };
@@ -621,6 +627,7 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				F7B353291A18926E005B8A30 /* utils */,
 				F71A20871A13B102002A0175 /* Particle.h */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				F71A20851A13B003002A0175 /* menu.h */,
@@ -716,6 +723,17 @@
 				F7B352E21A17CA64005B8A30 /* SyphonNameboundClient.m */,
 			);
 			path = src;
+			sourceTree = "<group>";
+		};
+		F7B353291A18926E005B8A30 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				F7B3532A1A18927C005B8A30 /* cheapCommRcv.cpp */,
+				F7B3532B1A18927C005B8A30 /* cheapCommRcv.h */,
+				F7B3532C1A18927C005B8A30 /* osc_match.cpp */,
+				F7B3532D1A18927C005B8A30 /* osc_match.h */,
+			);
+			name = utils;
 			sourceTree = "<group>";
 		};
 		F7D956371A1675140023A2FB /* ofxMtlMapping2D */ = {
@@ -1262,6 +1280,7 @@
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				F7D956701A1676530023A2FB /* tinyxml.cpp in Sources */,
 				F7D956FB1A1676AA0023A2FB /* ofxUITabBar.cpp in Sources */,
+				F7B3532F1A18927C005B8A30 /* osc_match.cpp in Sources */,
 				F7D9576C1A1688750023A2FB /* ofxFXObject.cpp in Sources */,
 				F7D9565F1A1675140023A2FB /* ofxMtlMapping2DInput.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
@@ -1315,6 +1334,7 @@
 				F7D956771A1676620023A2FB /* ofxMSAInteractiveObject.cpp in Sources */,
 				67FE4C7B15C2F0478C8126C2 /* NetworkingUtils.cpp in Sources */,
 				F7D956ED1A1676AA0023A2FB /* ofxUIMovingGraph.cpp in Sources */,
+				F7B3532E1A18927C005B8A30 /* cheapCommRcv.cpp in Sources */,
 				F7D9565B1A1675140023A2FB /* ofxMtlMapping2D.cpp in Sources */,
 				F7D956D91A1676AA0023A2FB /* ofxUI2DPad.cpp in Sources */,
 				F7D9573F1A1688470023A2FB /* model3DS.cpp in Sources */,

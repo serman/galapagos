@@ -11,8 +11,6 @@
 
 #include <iostream>
 #include "ofxOsc.h"
-#include "consts.h"
-#include "ofxXmlSettings.h"
 
 //static ofEvent	<oscData> eventoOSC;
 
@@ -23,7 +21,6 @@ class cheapComm {
     
 	    void setup();
 
-	    ofxOscSender myOscAudio;
         ofxOscSender myOscData;
     
         static cheapComm *getInstance(){
@@ -32,19 +29,11 @@ class cheapComm {
             return m_pInstance;
 
         }
-        void sendAudio0(string pattern);
-        void sendAudio1(string, float );
-        void sendAudio2(string, float , float);
-        void sendAudio3(string, float , float, float);
+        void sendMarcador(int nsol, int nnormal);
+    void sendStart( );
+    void sendEnd();
     
-        void sendSync0(string pattern);
-        void sendSync1(string, float );
-        void sendSync2(string, float , float);
-        void sendSync3(string, float , float, float);
-        void sendSync4(string, float , float, float,float);
-    
-    private:
-            ofxXmlSettings XML;
+    private:    
             cheapComm();
             cheapComm(cheapComm const&);              // Don't Implement
             void operator=(cheapComm const&); // Don't implement

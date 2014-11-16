@@ -15,14 +15,14 @@ public:
     int type; //0 normal 1 solar
     float speed;
     
-    barco(int x, int y, int w, int h) {
-        ofRectangle(x, y, w, h);
+    barco(int _x, int _y, int _w, int _h):ofRectangle(_x, _y, _w, _h) {
+//        ofRectangle::ofRectangle(_x, _y, _w, _h);
         type=0;
         speed=1;
     }
     
-    barco(int x, int y, int w, int h, float _speed) {
-        ofRectangle(x, y, w, h);
+    barco(int _x, int _y, int _w, int _h, float _speed): ofRectangle(_x, _y, _w, _h) {
+
         type=0;
         speed=_speed;
     }
@@ -40,6 +40,7 @@ public:
 class barcosManager{
     
 public:
+    
     void setup() {
        // barcos=new ArrayList<barco>();
         barcoSolar.loadImage("barcosolar.png");
@@ -48,7 +49,7 @@ public:
     
     void update() {
         if (ofGetElapsedTimeMillis()>timeNextBoat) {
-            barco mbarco(0, (int) ofRandom(0, height), 120, 120,ofRandom(2,5));
+            barco mbarco(0, (int)ofRandom(0, 768), 120, 120, ofRandom(2,5));
             barcos.push_back(mbarco);
             timeNextBoat=ofGetElapsedTimeMillis()+2500;
         }
@@ -65,13 +66,22 @@ public:
         }
         
     }
+    void reset(){
+        nbarcoSolar=0;
+        nbarcoNormal=0;
+        
+    }
     
     void draw() {
         for (int i=0; i<barcos.size (); i++) {
             if (barcos[i].type==0) {
-                ofSetColor(255, 255, 0, 128);
+                ofSetColor(255, 255, 0, 255);
+                       // cout << barcos[i].y << endl;
                 barcoNormal.draw (barcos[i].x, barcos[i].y, 120, 120);
-            } else barcoSolar.draw(barcos[i].x, barcos[i].y, 120, 120);
+            } else {
+                ofSetColor(255, 255, 255, 255);
+                    barcoSolar.draw(barcos[i].x, barcos[i].y, 120, 120);
+            }
         }
         ofSetColor(255);
     }
@@ -83,14 +93,19 @@ public:
             }
         }
     }
-
     
-private:
+    
+    
+
+
     vector <barco> barcos;
+        int nbarcoSolar, nbarcoNormal;
+private:
+
     long timeNextBoat;
     ofImage barcoSolar;
     ofImage barcoNormal;
-    int nbarcoSolar, nbarcoNormal;
+
 };
 
 

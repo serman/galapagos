@@ -12,9 +12,9 @@
 #include <iostream>
 #include "ofxOsc.h"
 #include "osc_match.h"
-#include "testApp.h"
+#include "ofApp.h"
 
-class testApp;
+class ofApp;
 class cheapCommRcv {
 	public:
 	    enum  {none,position, explosion};

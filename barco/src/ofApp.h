@@ -8,7 +8,9 @@
 #include "consts.h"
 #include "ofxCameraSaveLoad.h"
 #include "ofxSyphon.h"
+#include "cheapCommRcv.h"
 
+class cheapCommRcv;
 class ofApp : public ofBaseApp{
 
 	public:
@@ -25,12 +27,23 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-    menu mmenu;
+    
+        menu mmenu;
+    
+        nuevaIsla isla;
+        ofxMtlMapping2D *mapping;
+        islapuzle mislapuzle;
+        ofEasyCam   cam;
+        ofxSyphonClient mClient;
+        cheapCommRcv *myOSCrcv;
+        void updateResult(int solar, int normal);
+        int nsolares;
+        int nnormales;
+        void start();
+        void end();
+    
+private:
     ofTrueTypeFont franchise;
     ofTrueTypeFont franchiseBig;
-    nuevaIsla isla;
-    ofxMtlMapping2D *mapping;
-    islapuzle mislapuzle;
-    ofEasyCam   cam;
-    ofxSyphonClient mClient;
+    
 };

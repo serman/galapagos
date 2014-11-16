@@ -146,6 +146,12 @@ public:
         }
     }
     
+    void updateResult(int solar, int normal){
+        float ratio=solar/normal;
+        cout << "update updateResult menu" << endl ;
+        
+    }
+    
     void draw(){
         ofPushStyle();
         ofEnableAlphaBlending();
@@ -160,6 +166,13 @@ public:
         mesh.draw();
         //ofDisableDepthTest();
         //texture1.unbind();
+        
+    }
+    
+    void start(){
+        
+    }
+    void end(){
         
     }
     

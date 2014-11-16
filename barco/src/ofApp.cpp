@@ -17,6 +17,10 @@ void ofApp::setup(){
     mislapuzle.setup();
   	mClient.setup();
     mClient.set("pajaros","animacion");
+    
+    myOSCrcv=new cheapCommRcv();
+    myOSCrcv->setup();
+    
     //mislapuzle.cam.enableMouseInput();
     
 //    ofAddListener( ofEvents().update , this, &ofEasyCam::update);
@@ -28,6 +32,22 @@ void ofApp::update(){
         isla.update();
     mapping->update();
         mislapuzle.update();
+
+    myOSCrcv->update();
+}
+
+void ofApp::updateResult(int solar, int normal){
+    nsolares=solar;
+    nnormales=normal;
+    cout << "update updateResult ofApp" << endl ;
+}
+
+
+void ofApp::start(){
+    
+}
+void ofApp::end(){
+    
 }
 
 //--------------------------------------------------------------
@@ -61,7 +81,7 @@ void ofApp::draw(){
         ofScale(0.5, 0.5);
         mmenu.draw();
         ofPopStyle();
-        ofPopMatrix();
+    ofPopMatrix();
 //ISLZPUZLE
     ofPushMatrix();
     ofPushStyle();
@@ -79,6 +99,16 @@ void ofApp::draw(){
         ofSetColor(255);
         franchise.drawString("CLIMATIC",20,50);
         franchise.drawString("CHANGE?",20,90);
+    ofPopStyle();
+    ofPopMatrix();
+
+    //marcador
+    ofPushMatrix();
+    ofPushStyle();
+        ofTranslate(960, 480);
+        franchiseBig.drawString("1000",20,150);
+        franchise.drawString("litros petroleo",20,190);
+        franchise.drawString("ahorrados",20,230);
     ofPopStyle();
     ofPopMatrix();
 

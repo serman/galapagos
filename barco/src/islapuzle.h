@@ -112,6 +112,18 @@ public:
         
     }
     
+    void updateResult(int solar, int normal){
+        float ratio=solar/normal;
+        cout << "update updateResult isla Puzle" << endl ;
+        
+    }
+    void start(){
+        
+    }
+    void end(){
+        
+    }
+    
     //--------------------------------------------------------------
     void draw(){
 

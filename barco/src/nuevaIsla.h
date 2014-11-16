@@ -60,6 +60,12 @@ public:
         }
     }
     
+    void updateResult(int solar, int normal){
+        float ratio=solar/normal;
+        cout << "update updateResult nueva isla" << endl ;
+        
+    }
+    
     void draw(){
         mesh.setMode(OF_PRIMITIVE_POINTS);
         glEnable(GL_POINT_SMOOTH);
@@ -78,6 +84,12 @@ public:
     void setSizeTon(float tons){
         islaSize=  round( ((556.2*tons)/0.5) *(0.88/zoomRatio));
         cout <<islaSize << "\n";
+    }
+    void start(){
+        
+    }
+    void end(){
+        
     }
     
     
