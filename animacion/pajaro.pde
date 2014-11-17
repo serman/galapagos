@@ -57,7 +57,7 @@ class pajaro{
  }
   
   void itsStarted() {
-    println("diameterAni started");
+    //println("diameterAni started");
   }
 
   // called onEnd of diameterAni animation

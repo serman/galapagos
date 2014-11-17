@@ -22,6 +22,7 @@ class cheapComm {
 	    void setup();
 
         ofxOscSender myOscData;
+            ofxOscSender myOscData2;
     
         static cheapComm *getInstance(){
             if (!m_pInstance)   // Only allow one instance of class to be generated.

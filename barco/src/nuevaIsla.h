@@ -44,6 +44,7 @@ public:
     
     void update(){
         mesh.clear();
+        //particulas que forman parte de la isla
         for ( int i = 0 ; i < islaSize;  i+=1 ){
             ofVec3f p=ofVec3f( imgPoint[i] );
             particles[i].steer(p,true,2,5);
@@ -51,30 +52,41 @@ public:
             mesh.addVertex(particles[i].position);
             mesh.addColor(ofColor(247,244,236));
         }
+        //particulas en espera
         for ( int i = islaSize ; i < particles.size();  i+=1 ){
-            ofVec3f p=ofVec3f( 400,400 );
+            ofVec3f p=ofVec3f( 200,200 );
             particles[i].steer(p,true,2,5);
             particles[i].update();
             mesh.addVertex(particles[i].position);
-            mesh.addColor(ofColor(247,244,236));
+            mesh.addColor(ofColor(247,244,236,0));
         }
     }
     
     void updateResult(int solar, int normal){
         float ratio=solar/normal;
+        //cada barco supone 100 trayectos
+        //
+        float toneladas_100_trayectos= 100 * (8.85 / (50*365));
+        setSizeTon(normal*toneladas_100_trayectos);
+        
         cout << "update updateResult nueva isla" << endl ;
         
     }
     
     void draw(){
+        
+        ofSetColor(255, 255, 255, 255);
+        ofSetLineWidth(0);
         mesh.setMode(OF_PRIMITIVE_POINTS);
         glEnable(GL_POINT_SMOOTH);
         glPointSize(1);
         mapa.draw(0,0,640/zoomRatio, 640/zoomRatio);
+        ofEnableAlphaBlending();
         ofPushMatrix();
             ofTranslate(354/zoomRatio,194/zoomRatio,0);
             mesh.draw();
         ofPopMatrix();
+        ofDisableAlphaBlending();
     }
     
     void setSize(int _size){

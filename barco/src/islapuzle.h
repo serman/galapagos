@@ -98,18 +98,16 @@ public:
     //--------------------------------------------------------------
     void update(){
         
-        ofSetWindowTitle(ofToString(ofGetFrameRate()));
-        
         rip.begin();
         ofFill();
         ofSetColor(ofNoise( ofGetFrameNum() ) * 255 * 5, 255);
+        //generamos nueva onda
         if(ofGetFrameNum()%200==0)
             ofEllipse(ofRandom(0,w_width),ofRandom(0,h_height), 20,20);
         rip.end();
         rip.update();
         
         bounce << rip;
-        
     }
     
     void updateResult(int solar, int normal){
@@ -130,11 +128,11 @@ public:
       //  fboIsla.begin();
        
  //       ofDrawBitmapString("ofxBounce", 640+15,15);
-            bounce.draw(0,0);
+//        bounce.draw(0,0);
         light.enable();
         ofPushMatrix();
         ofEnableLighting();
-        glEnable(GL_DEPTH_TEST);
+  
 
         
         /* for (int i = 0; i < cellCentroids.size(); i++){
@@ -166,7 +164,7 @@ public:
         glPopMatrix();
         
         
-        glDisable(GL_DEPTH_TEST);
+
         ofDisableLighting();
         light.disable();
 

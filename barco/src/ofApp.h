@@ -9,6 +9,7 @@
 #include "ofxCameraSaveLoad.h"
 #include "ofxSyphon.h"
 #include "cheapCommRcv.h"
+#include "ofxUI.h"
 
 class cheapCommRcv;
 class ofApp : public ofBaseApp{
@@ -45,5 +46,7 @@ class ofApp : public ofBaseApp{
 private:
     ofTrueTypeFont franchise;
     ofTrueTypeFont franchiseBig;
+    ofxUICanvas *gui;
+    float px, py, pz;
     
 };

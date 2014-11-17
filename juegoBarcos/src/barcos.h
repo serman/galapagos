@@ -49,9 +49,9 @@ public:
     
     void update() {
         if (ofGetElapsedTimeMillis()>timeNextBoat) {
-            barco mbarco(0, (int)ofRandom(0, 768), 120, 120, ofRandom(2,5));
+            barco mbarco(0, (int)ofRandom(0, 768), 60, 60, ofRandom(4,10));
             barcos.push_back(mbarco);
-            timeNextBoat=ofGetElapsedTimeMillis()+2500;
+            timeNextBoat=ofGetElapsedTimeMillis()+1000;
         }
         for (int i=0; i<barcos.size (); i++) {
             barcos[i].updatePosition();
@@ -60,16 +60,15 @@ public:
             if(barcos[i].x>width){
                 if(barcos[i].type==0)  nbarcoNormal++;
                 else nbarcoSolar++;
-                barcos.erase(barcos.begin()+i) ;
+                    barcos.erase(barcos.begin()+i) ;
                 break;
             }
         }
-        
     }
+    
     void reset(){
         nbarcoSolar=0;
         nbarcoNormal=0;
-        
     }
     
     void draw() {
@@ -77,10 +76,10 @@ public:
             if (barcos[i].type==0) {
                 ofSetColor(255, 255, 0, 255);
                        // cout << barcos[i].y << endl;
-                barcoNormal.draw (barcos[i].x, barcos[i].y, 120, 120);
+                barcoNormal.draw (barcos[i].x, barcos[i].y, 60, 60);
             } else {
                 ofSetColor(255, 255, 255, 255);
-                    barcoSolar.draw(barcos[i].x, barcos[i].y, 120, 120);
+                    barcoSolar.draw(barcos[i].x, barcos[i].y, 60, 60);
             }
         }
         ofSetColor(255);

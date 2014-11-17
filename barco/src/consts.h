@@ -14,4 +14,7 @@
 
 #define isla_w 320
 
+#define trayectosRealesBarco 100
+#define LITROSPETROLEOANUALES 10000
+
 #endif

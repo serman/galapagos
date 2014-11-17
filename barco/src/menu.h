@@ -14,28 +14,30 @@
 #include "Particle.h"
 #include "consts.h"
 
-enum  {EM, NUCLEAR_DEBIL, NUCLEAR_FUERTE, GRAVEDAD, MENU,TESTING};
+enum  {_0, _20, _40, _60, _80,_100};
 class menu{
 public:
     vector<Particle> particles;
     ofMesh mesh;
     ofImage *currentImg;
     //Vectores de puntos donde hay letra en la imagen
-    vector<ofPoint> emImgWP,weakImgWP,strongImgWP,gravityImgWP,flabImgWP;
+    vector<ofPoint> _0WP,_20WP,_40WP,_60WP,_80WP,_100WP;
     vector<ofPoint> *currentvector;
     ofImage texture1;
-    int density=4;
+    int density=6;
     void setup(){
-        emImg.loadImage("barco.png");
-        weakImg.loadImage("barco2.png");
-        strongImg.loadImage("barco3.png");
-        gravityImg.loadImage("nobarco.png");
-        flabImg.loadImage("barco.png");
+        _0Img.loadImage("nobarco.png");
+        _20Img.loadImage("barco_20.png");
+        _40Img.loadImage("barco_40.png");
+        _60Img.loadImage("barco_60.png");
+        _80Img.loadImage("barco_80.png");
+        _100Img.loadImage("barco_100.png");
+        
         texture1.loadImage("barco.png");
         
-        start(MENU);
-        for ( int y = 0 ; y < emImg.height;  y+=density ){
-            for ( int x = 0 ; x < emImg.width; x+=density ){
+        start(_100);
+        for ( int y = 0 ; y < _100Img.height;  y+=density ){
+            for ( int x = 0 ; x < _100Img.width; x+=density ){
                 Particle mparticle=Particle(ofVec3f(x-1000,y-1000,0),
                                             ofVec3f(0,ofRandom(-400,0),ofRandom(-400)),
                                             ofColor(255,255,255) ,x,y);
@@ -43,8 +45,9 @@ public:
             }
         }
         analyzeImg();
-        currentvector=&emImgWP;
-        start(MENU);
+        currentvector=&_20WP;
+        start(_100);
+        litrosAhorrados=0;
     }
     
     void start(int _state){
@@ -55,44 +58,45 @@ public:
     
     void reset(){
         for ( int i = 0 ; i < particles.size();  i++ ){
-            particles[i].position=ofVec3f(-1,i%emImg.width,0);
+            particles[i].position=ofVec3f(-1,i%_100Img.width,0);
             particles[i].update();
         }
     }
     
     void analyzeImg( ){
-        for ( int y = 0 ; y < emImg.height;  y+=density/1.6 ){
-            for ( int x = 0 ; x < emImg.width; x+=density/1.6 ){
-                if(emImg.getColor(x,y).getBrightness()>100)
-                    emImgWP.push_back(ofPoint(x,y));
+      //100
+        for ( int y = 0 ; y < _100Img.height;  y+=density/1.6 ){
+            for ( int x = 0 ; x < _100Img.width; x+=density/1.6 ){
+                if(_100Img.getColor(x,y).getBrightness()>100)
+                    _100WP.push_back(ofPoint(x,y));
             }
         }
-        
-        for ( int y = 0 ; y < emImg.height;  y+=density/1.6 ){
-            for ( int x = 0 ; x < emImg.width; x+=density/1.6 ){
-                if(weakImg.getColor(x,y).getBrightness()>100)
-                    weakImgWP.push_back(ofPoint(x,y));
+//80
+        for ( int y = 0 ; y < _100Img.height;  y+=density/1.6 ){
+            for ( int x = 0 ; x < _100Img.width; x+=density/1.6 ){
+                if(_80Img.getColor(x,y).getBrightness()>100)
+                    _80WP.push_back(ofPoint(x,y));
             }
         }
-        
-        for ( int y = 0 ; y < emImg.height;  y+=density/1.6 ){
-            for ( int x = 0 ; x < emImg.width; x+=density/1.6 ){
-                if(strongImg.getColor(x,y).getBrightness()>100)
-                    strongImgWP.push_back(ofPoint(x,y));
+//60
+        for ( int y = 0 ; y < _100Img.height;  y+=density/1.6 ){
+            for ( int x = 0 ; x < _100Img.width; x+=density/1.6 ){
+                if(_60Img.getColor(x,y).getBrightness()>100)
+                    _60WP.push_back(ofPoint(x,y));
             }
         }
-        
-        for ( int y = 0 ; y < emImg.height;  y+=density/1.6 ){
-            for ( int x = 0 ; x < emImg.width; x+=density/1.6 ){
-                if(gravityImg.getColor(x,y).getBrightness()>100)
-                    gravityImgWP.push_back(ofPoint(x,y));
+//40
+        for ( int y = 0 ; y < _100Img.height;  y+=density/1.6 ){
+            for ( int x = 0 ; x < _100Img.width; x+=density/1.6 ){
+                if(_40Img.getColor(x,y).getBrightness()>100)
+                    _40WP.push_back(ofPoint(x,y));
             }
         }
-        
-        for ( int y = 0 ; y < emImg.height;  y+=density/1.6 ){
-            for ( int x = 0 ; x < emImg.width; x+=density/1.6 ){
-                if(flabImg.getColor(x,y).getBrightness()>100)
-                    flabImgWP.push_back(ofPoint(x,y));
+//20
+        for ( int y = 0 ; y < _100Img.height;  y+=density/1.6 ){
+            for ( int x = 0 ; x < _100Img.width; x+=density/1.6 ){
+                if(_20Img.getColor(x,y).getBrightness()>100)
+                    _20WP.push_back(ofPoint(x,y));
             }
         }
         
@@ -102,34 +106,35 @@ public:
     
     void update(){
         switch(state){
-            case EM:
-                //emImg.draw(0,0,emImg.width,emImg.height);
+            case _100:
+                //_100Img.draw(0,0,_100Img.width,_100Img.height);
                 //ofDrawBitmapString (ofToString(ofGetElapsedTimeMillis()-initTime),500,500);
-                currentImg=&emImg;
-                currentvector=&emImgWP;
+                currentImg=&_100Img;
+                currentvector=&_100WP;
                 
                 break;
-            case NUCLEAR_DEBIL:
-                //weakImg.draw(0,0,emImg.width,emImg.height);
-                currentImg=&weakImg;
-                currentvector=&weakImgWP;
-                break;
-            case NUCLEAR_FUERTE:
-                // strongImg.draw(0,0,emImg.width,emImg.height);
-                currentImg=&strongImg;
-                currentvector=&strongImgWP;
+            case _80:
+                //weakImg.draw(0,0,_100Img.width,_100Img.height);
+                currentImg=&_80Img;
+                currentvector=&_80WP;
                 break;
                 
-            case GRAVEDAD:
-                //gravityImg.draw(0,0,emImg.width,emImg.height);
-                currentImg=&gravityImg;
-                currentvector=&gravityImgWP;
+            case _60:
+                // strongImg.draw(0,0,_100Img.width,_100Img.height);
+                currentImg=&_60Img;
+                currentvector=&_60WP;
                 break;
                 
-            case MENU:
-                //flabImg.draw(0,0,emImg.width,emImg.height);
-                currentImg=&flabImg;
-                currentvector=&flabImgWP;
+            case _40:
+                //gravityImg.draw(0,0,_100Img.width,_100Img.height);
+                currentImg=&_40Img;
+                currentvector=&_40WP;
+                break;
+                
+            case _20:
+                //flabImg.draw(0,0,_100Img.width,_100Img.height);
+                currentImg=&_20Img;
+                currentvector=&_20WP;
                 break;
         }
         //ofDisableAlphaBlending();
@@ -147,8 +152,9 @@ public:
     }
     
     void updateResult(int solar, int normal){
-        float ratio=solar/normal;
-        cout << "update updateResult menu" << endl ;
+        float ratio=(float)solar/(float)(normal+solar);
+        litrosAhorrados=round(ratio*LITROSPETROLEOANUALES);
+        //cout << "update updateResult menu" << endl ;
         
     }
     
@@ -175,11 +181,13 @@ public:
     void end(){
         
     }
+        float litrosAhorrados;
     
 private:
-    ofImage emImg, weakImg,strongImg,gravityImg,flabImg;
+    ofImage _0Img, _20Img,_40Img,_60Img,_80Img,_100Img;
     long initTime;
     int state;
+
     
     
 };

@@ -20,6 +20,7 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    ofSetWindowTitle("juego barco. fps:" + ofToString(ofGetFrameRate()));
     if(gameStatus==JUGANDO){
         mbarcos.update();
        // mbarcos.checkColision((int)mtracking.loc.x,(int)mtracking.loc.y);
@@ -33,7 +34,7 @@ void ofApp::update(){
             timeChangeStatus=ofGetElapsedTimeMillis()+2000;
             cheapComm::getInstance()->sendEnd();
         }
-    }else if(gameStatus==FIN){        
+    }else if(gameStatus==FIN){
         helvetica1.drawString("JUEGO TERMINADO",400,300);
         if(ofGetElapsedTimeMillis()>timeChangeStatus)
             gameStatus=SINJUGADOR;
