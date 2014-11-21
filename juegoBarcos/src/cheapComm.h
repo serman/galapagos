@@ -33,6 +33,7 @@ class cheapComm {
         void sendMarcador(int nsol, int nnormal);
     void sendStart( );
     void sendEnd();
+    void sendStartWait();
     
     private:    
             cheapComm();

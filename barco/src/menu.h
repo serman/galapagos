@@ -24,7 +24,7 @@ public:
     vector<ofPoint> _0WP,_20WP,_40WP,_60WP,_80WP,_100WP;
     vector<ofPoint> *currentvector;
     ofImage texture1;
-    int density=6;
+    int density=7;
     void setup(){
         _0Img.loadImage("nobarco.png");
         _20Img.loadImage("barco_20.png");
@@ -142,37 +142,63 @@ public:
         mesh.clear();
         for ( int i = 0 ; i < particles.size();  i+=1 ){
             int index=i%currentvector->size();
-            if( ((float)(  i/currentvector->size()) )>1) continue;
+            if((float)i/currentvector->size()>1) continue;
+           // if( ((float)(  i/currentvector->size()) )>1) continue;
             ofVec3f p=ofVec3f( (*currentvector)[index] );
             particles[i].steer(p,true,2,5);
             particles[i].update();
             mesh.addVertex(particles[i].position);
-            mesh.addColor(ofColor(0,192));
+            if (particles[i].position.y <0 || particles[i].position.x <0)
+                mesh.addColor(ofColor(0,0,0,0));
+            else
+                mesh.addColor(ofColor(0,200));
         }
     }
     
     void updateResult(int solar, int normal){
         float ratio=(float)solar/(float)(normal+solar);
+        if(ratio>0.9){
+            start(_0);
+        }
+        else if(ratio>0.7<=0.9) start(_80);
+        else if(ratio>0.5<=0.7) start(_60);
+        else if(ratio>0.3<=0.6) start(_40);
+        else if(ratio>0.1<=0.3) start(_20);
+        else start(_100);
+        
         litrosAhorrados=round(ratio*LITROSPETROLEOANUALES);
         //cout << "update updateResult menu" << endl ;
         
     }
     
     void draw(){
-        ofPushStyle();
-        ofEnableAlphaBlending();
-        
-        ofSetColor(255/*,min( (int)(ofGetElapsedTimeMillis()-initTime)/2,255) */) ;
-        
-        mesh.setMode(OF_PRIMITIVE_POINTS);
-        glEnable(GL_POINT_SMOOTH);
-        glPointSize(2);
-        //texture1.bind();
-        //ofEnableDepthTest();
-        mesh.draw();
-        //ofDisableDepthTest();
-        //texture1.unbind();
-        
+        if(statusGlobal==PRE) drawPre();
+        if(statusGlobal==POST) drawPost();
+        else{
+            ofPushStyle();
+            ofEnableAlphaBlending();        
+            ofSetColor(255/*,min( (int)(ofGetElapsedTimeMillis()-initTime)/2,255) */) ;
+            
+            mesh.setMode(OF_PRIMITIVE_POINTS);
+            glEnable(GL_POINT_SMOOTH);
+            glPointSize(2);
+            //texture1.bind();
+            ofEnableDepthTest();
+            mesh.draw();
+            ofDisableDepthTest();
+            //texture1.unbind();
+            ofDisableAlphaBlending();
+        }
+    }
+    
+    void drawPre(){
+        ofSetColor(0,0,0);
+        ofRect(0, 0, petroleo_w, petroleo_h);
+    }
+    
+    void drawPost(){
+        ofSetColor(0, 0, 0);
+        ofRect(0, 0, petroleo_w, petroleo_h);
     }
     
     void start(){

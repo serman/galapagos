@@ -35,9 +35,9 @@ public:
         //you can create as many rotations as you want
         //choose which axis you want it to effect
         //you can update these rotations later on
-        squirrelModel.setRotation(0, 90, 1, 0, 0);
-        squirrelModel.setRotation(1, 270, 0, 0, 1);
-        squirrelModel.setScale(0.9, 0.9, 0.9);
+ //       squirrelModel.setRotation(0, 90, 1, 0, 0);
+//        squirrelModel.setRotation(1, 300, 0, 0, 1);
+        squirrelModel.setScale(0.5, 0.5, 0.5);
         //squirrelModel.setPosition(w_width/2, h_height/2, 0);
         
         franchise.loadFont("Franchise-Bold-hinted.ttf",40,true,true);
@@ -128,9 +128,10 @@ public:
       //  fboIsla.begin();
        
  //       ofDrawBitmapString("ofxBounce", 640+15,15);
-//        bounce.draw(0,0);
-        light.enable();
+      //  bounce.draw(0,0);
+
         ofPushMatrix();
+                light.enable();
         ofEnableLighting();
   
 
@@ -155,9 +156,13 @@ public:
         //tortuga
         glPushMatrix();
             glTranslatef(cellMeshWireframes[0].getVertex(0).x,
-                         cellMeshWireframes[0].getVertex(0).y+10,
+                         cellMeshWireframes[0].getVertex(0).y,
                          cellMeshWireframes[0].getVertex(0).z);
-            
+
+        squirrelModel.setRotation(0, tortugaX, 1, 0, 0);
+        squirrelModel.setRotation(1, tortugaY, 0, 1, 0);
+        squirrelModel.setRotation(2, tortugaZ, 0, 0, 1);
+
             ofSetColor(255, 255, 255, 255);
             squirrelModel.draw();
         
@@ -190,13 +195,15 @@ public:
             rip.damping -= 0.01;
         }
     }
-
+    vector<ofPoint> cellCentroids;
+        ofxBounce   bounce;
+        float tortugaX,tortugaY,tortugaZ;
 private:
     
 
     ofLight     light;
     
-    vector<ofPoint> cellCentroids;
+
     vector<float>   cellRadius;
     vector<ofVboMesh>  cellMeshes;
     vector<ofVboMesh>  cellMeshWireframes;
@@ -204,8 +211,8 @@ private:
     
     bool direction;
     ofxRipples  rip;
-    ofxBounce   bounce;
-    
+
+
     ofx3DModelLoader squirrelModel;
     ofTrueTypeFont franchise;
     ofFbo fboIsla;

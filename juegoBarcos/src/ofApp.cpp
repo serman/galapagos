@@ -2,12 +2,15 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    ofSetFrameRate(30);
+    ofSetFrameRate(25);
     mapa.loadImage("mapa.png");
+    creditos.loadImage("creditos.png");
     mbarcos.setup();
     mtracking.setup();
     gui=new ofxUICanvas(1150,0,200,150);
-    gui->addSlider("threshold", 180, 255, &(mtracking.threshold));
+    gui->addSlider("threshold", 1, 255, &(mtracking.threshold));
+        gui->addSlider("min Rad", 1, 50, &(mtracking.minRadius));
+        gui->addSlider("max Rad", 10, 200, &(mtracking.maxRadius));
     ofSetVerticalSync(true);
    // openCameras();
     helvetica1.loadFont("Helvetica-Bold.otf", 11);
@@ -31,20 +34,30 @@ void ofApp::update(){
         
         if(mbarcos.nbarcoSolar+ mbarcos.nbarcoNormal>TOTAL_BARCOS ){
             gameStatus=FIN;
-            timeChangeStatus=ofGetElapsedTimeMillis()+2000;
+            timeChangeStatus=ofGetElapsedTimeMillis()+10000;
             cheapComm::getInstance()->sendEnd();
         }
     }else if(gameStatus==FIN){
-        helvetica1.drawString("JUEGO TERMINADO",400,300);
-        if(ofGetElapsedTimeMillis()>timeChangeStatus)
+        /*helvetica1.drawString("JUEGO TERMINADO",0,300);
+        helvetica1.drawString("Proyecto desarrollado con alumnos de bellas artes de la U.C. del ecuador",0,350);
+        helvetica1.drawString("Dario Rafael Puco Zapata,Santiago C‡rdenas Haro,Paola ArŽvalo Moncayo,\n Luis Alberto Zabala Vaca,Diana Clavijo",0,400);
+        helvetica1.drawString("Programaci—n: Sergio Gal‡n. Coordinaci—n Beatriz Rivela (Iner) ",0,500);
+//        helvetica1.drawString("Dar’o Rafael Puco Zapata",400,400);*/        
+        if(ofGetElapsedTimeMillis()>timeChangeStatus){
             gameStatus=SINJUGADOR;
+            cheapComm::getInstance()->sendStartWait();
+        }
     }else if(gameStatus==SINJUGADOR){
         //TODO
-        gameStatus=JUGANDO;
+
+        restart();
         cheapComm::getInstance()->sendStart();
     }
-    
-    
+}
+void ofApp::restart(){
+    mbarcos.nbarcoSolar=0;
+    mbarcos.nbarcoNormal=0;
+    gameStatus=JUGANDO;
 }
 
 
@@ -58,7 +71,8 @@ void ofApp::draw(){
         mtracking.draw();
         drawMarcador();
     } else if(gameStatus==FIN){
-        helvetica1.drawString("JUEGO TERMINADO",400,300);
+//        helvetica1.drawString("JUEGO TERMINADO",400,300);
+        creditos.draw(0, 0);
     }
     
 
@@ -70,7 +84,9 @@ void ofApp::drawMarcador(){
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-
+    if(key == ' ') {
+		mtracking.background.reset();
+	}
 }
 
 //--------------------------------------------------------------

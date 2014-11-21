@@ -50,7 +50,8 @@ public:
             particles[i].steer(p,true,2,5);
             particles[i].update();
             mesh.addVertex(particles[i].position);
-            mesh.addColor(ofColor(247,244,236));
+            //mesh.addColor(ofColor(247,244,236));
+            mesh.addColor(ofColor(0,0,0));
         }
         //particulas en espera
         for ( int i = islaSize ; i < particles.size();  i+=1 ){
@@ -74,19 +75,44 @@ public:
     }
     
     void draw(){
+        if(statusGlobal==PRE) drawPre();
+        if(statusGlobal==POST) drawPost();
+        else if(statusGlobal==RUN){
+            ofSetColor(255, 255, 255, 255);
+            ofSetLineWidth(0);
+            mesh.setMode(OF_PRIMITIVE_POINTS);
+            glEnable(GL_POINT_SMOOTH);
+            glPointSize(1);
+            mapa.draw(0,0,640/zoomRatio, 640/zoomRatio);
+            ofEnableAlphaBlending();
+            ofPushMatrix();
+                ofTranslate(354/zoomRatio,194/zoomRatio,0);
+                mesh.draw();
+            ofPopMatrix();
+            ofDisableAlphaBlending();
+            ofSetColor(85,98,112);
+            franchise.drawString("Tendríamos una isla de " +ofToString(islaSize/0.8) + "m^2",20,30);
+            franchise.drawString("con el co2 emitido por",20,60);
+            franchise.drawString("" + ofToString(normal * trayectosRealesBarco) + " trayectos de barcos de gasoil",20,90);
+        }
         
-        ofSetColor(255, 255, 255, 255);
-        ofSetLineWidth(0);
-        mesh.setMode(OF_PRIMITIVE_POINTS);
-        glEnable(GL_POINT_SMOOTH);
-        glPointSize(1);
-        mapa.draw(0,0,640/zoomRatio, 640/zoomRatio);
-        ofEnableAlphaBlending();
-        ofPushMatrix();
-            ofTranslate(354/zoomRatio,194/zoomRatio,0);
-            mesh.draw();
-        ofPopMatrix();
-        ofDisableAlphaBlending();
+    }
+    
+    void drawPre(){
+        ofSetColor(0,0,0);
+        ofRect(0, 0, 640/zoomRatio, 640/zoomRatio);
+        ofSetColor(255, 255, 255);
+        franchise.drawString("drawPre: ",20,30);
+    }
+
+    void drawPost(){
+        ofSetColor(0, 0, 0);
+        ofRect(0, 0, 640/zoomRatio, 640/zoomRatio);
+        ofSetColor(255, 255, 255);
+        franchise.drawString("Densidad Co2: ",20,30);
+        franchise.drawString("altura de la isla: 0.5m",20,60);
+
+
     }
     
     void setSize(int _size){

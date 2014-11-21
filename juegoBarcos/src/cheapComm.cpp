@@ -51,4 +51,9 @@ void cheapComm::sendStart( ){
     myOscData2.sendMessage(m);
 }
 
-
+void cheapComm::sendStartWait( ){
+    ofxOscMessage m;
+    m.setAddress("/startWait");
+    myOscData.sendMessage(m);
+    myOscData2.sendMessage(m);
+}

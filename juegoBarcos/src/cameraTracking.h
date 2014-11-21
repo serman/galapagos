@@ -13,10 +13,10 @@
 #include "ofxUI.h"
 
 static bool USE_LIVE_VIDEO =true;
-#define filas 30
-#define columnas 30
-static int camWidth = 640;
-static int camHeight = 480;
+#define filas 25
+#define columnas 25
+static int camWidth = 320;
+static int camHeight = 240;
 static int tileWidth = (int)(camWidth / columnas);
 static int tileHeight = (int)(camHeight / filas);
 static float ratiow=1024.0/camWidth;
@@ -35,6 +35,9 @@ public:
     int minPuntos= 1;
     ofPoint loc;
     float threshold;
+    float minRadius;
+    float maxRadius;
+    
     
     void openCameras(){
         if( USE_LIVE_VIDEO){
@@ -59,6 +62,12 @@ public:
       //  grayImgDiff.allocate(imgWidth,imgHeight);
     //    grayImgW.allocate(imgWidth,imgHeight);
         grayImgT.allocate(imgWidth,imgHeight);
+        background.setLearningTime(900);
+
+        thresholded.allocate(imgWidth,imgHeight,OF_IMAGE_GRAYSCALE);
+        //contourFinder.setMinAreaRadius(minRadius);
+        //contourFinder.setMaxAreaRadius(maxRadius);
+                    thresholded.setImageType(OF_IMAGE_GRAYSCALE);
     }
     
     void update(){
@@ -72,28 +81,52 @@ public:
             bNewFrame = player.isFrameNew();}
 
         if (bNewFrame){
-            if(USE_LIVE_VIDEO)
+            if(USE_LIVE_VIDEO){
+                background.setThresholdValue(threshold);
                 sourceImg.setFromPixels(camera.getPixels(), camWidth,camHeight);
-            else
+                background.update(camera, thresholded);
+                thresholded.update();
+               // thresholded.dilate();
+               // thresholded.erode();
+               // contourFinder.setThreshold(threshold);
+               // contourFinder.findContours(camera);
+            }
+            else{
                 sourceImg.setFromPixels(player.getPixels(), camWidth,camHeight);
+                background.update(player, thresholded);
+                thresholded.update();
+            }
             
             sourceImg.mirror(false, true);
         }
         
         grayImg = sourceImg;
-        grayImgT=grayImg;
-        grayImgT.threshold(threshold);
-
-        if(ofGetFrameNum()%2==0){
-            for (int i = 0; i < filas; i++) {
-                for (int j = 0; j < columnas; j++) {
-                    if (matrix[i][j] >0) {
-                        matrix[i][j] -=1; //amountActivity;
+       
+        if(!enableBGS){
+            grayImgT=grayImg;
+            grayImgT.threshold(threshold);
+            if(ofGetFrameNum()%2==0){
+                for (int i = 0; i < filas; i++) {
+                    for (int j = 0; j < columnas; j++) {
+                        if (matrix[i][j] >0) {
+                            matrix[i][j] -=1; //amountActivity;
+                        }
                     }
                 }
             }
+                detect();
         }
-        detect();
+        else{
+            //grayImgT=thresholded;
+            grayImgT.setFromPixels(thresholded.getPixels(),thresholded.getWidth(), thresholded.getHeight());
+            grayImgT.mirror(false, true);
+             grayImgT.erode_3x3();
+            //grayImgT.dilate_3x3();
+             contourFinder.findContours(grayImgT, minRadius, maxRadius, 10, false, true);
+           
+            
+        }
+            
     }
     
     void draw() {
@@ -103,10 +136,22 @@ public:
         ofPushMatrix();
             ofSetColor(255);
             ofTranslate(1024,0);
+        if(!enableBGS){
+           // contourFinder.draw();
+
             drawMatrix();
-            ofSetColor(255);
-            grayImg.draw(0 ,200,320,240);
+        }
+        ofSetColor(255);
+        grayImg.draw(0 ,200,320,240);
+        
+        if(!enableBGS){
             grayImgT.draw(0,450,320,240);
+        }else{
+            contourFinder.draw();
+            grayImgT.draw(0,450);
+            
+        }
+        
         ofPopMatrix();
        // camera.draw(0,0);
     }
@@ -212,7 +257,7 @@ public:
             }
         }
     }
-    
+        ofxCv::RunningBackground background;
 private:
     ofVideoGrabber camera;
     ofVideoPlayer player;
@@ -224,8 +269,10 @@ private:
 	
 	ofxCvGrayscaleImage 	grayImgT;
 	ofxCvGrayscaleImage 	grayImgW;
+    bool enableBGS=false;
 
-
+    ofImage thresholded;
+    ofxCvContourFinder contourFinder;
     };
 
 

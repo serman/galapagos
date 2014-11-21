@@ -1,0 +1,35 @@
+<Widget>
+    <Kind>4</Kind>
+    <Name>x</Name>
+    <Value>66.666671753</Value>
+</Widget>
+<Widget>
+    <Kind>4</Kind>
+    <Name>y</Name>
+    <Value>-179.166671753</Value>
+</Widget>
+<Widget>
+    <Kind>4</Kind>
+    <Name>z</Name>
+    <Value>12.500000000</Value>
+</Widget>
+<Widget>
+    <Kind>4</Kind>
+    <Name>zoom</Name>
+    <Value>0.896875024</Value>
+</Widget>
+<Widget>
+    <Kind>4</Kind>
+    <Name>tortugaX</Name>
+    <Value>0.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>4</Kind>
+    <Name>tortugay</Name>
+    <Value>181.250000000</Value>
+</Widget>
+<Widget>
+    <Kind>4</Kind>
+    <Name>tortugaz</Name>
+    <Value>0.000000000</Value>
+</Widget>

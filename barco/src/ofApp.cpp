@@ -1,35 +1,51 @@
 #include "ofApp.h"
 
+ofTrueTypeFont franchise;
+int statusGlobal;
 //--------------------------------------------------------------
 void ofApp::setup(){
     
     ofSetFrameRate(40);
     mmenu.setup();
+    
     franchise.loadFont("Franchise-Bold-hinted.ttf",25);
     franchiseBig.loadFont("Franchise-Bold-hinted.ttf",65);
+    statusGlobal=RUN;
+    
     isla.setup();
-   // cam.setAutoDistance(true);
+
     ofxLoadCamera(cam, "ofEasyCamSettings");
     //cam.move(150, 0, 0);
-    
+
     mapping = new ofxMtlMapping2D();
     mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/shapes.xml", "mapping/controls/mapping.xml");
     mislapuzle.setup();
   	mClient.setup();
     mClient.set("pajaros","animacion");
     
+    cam.lookAt(mislapuzle.cellCentroids[0]);
+    cam.setAutoDistance(true);
     myOSCrcv=new cheapCommRcv();
     myOSCrcv->setup();
-    px=100;
-    py=0;
+    px=0;
+    py=-180;
     pz=0;
+    zoom=1.0;
     
-    gui=new ofxUICanvas(1050,0,200,150);
-    gui->addSlider("x", -680, 680, &px);
-    gui->addSlider("y", -680, 680, &py);
-    gui->addSlider("z", -680, 5080, &pz);
+    gui=new ofxUICanvas(1050,0,200,350);
+    gui->addSlider("x", -200, 200, &px);
+    gui->addSlider("y", -200, 200, &py);
+    gui->addSlider("z", -200, 200, &pz);
+    gui->addSlider("zoom", 0.1, 1, &zoom);
+
+    gui->addSlider("tortugaX", -200, 200, &(mislapuzle.tortugaX));
+    gui->addSlider("tortugay", -200, 200, &(mislapuzle.tortugaY));
+    gui->addSlider("tortugaz", -200, 200, &(mislapuzle.tortugaZ));
+    
+    gui->loadSettings("settings.xml");
     nnormales=1;
     nsolares=0;
+
    // cam.enableMouseInput();
     
 //    ofAddListener( ofEvents().update , this, &ofEasyCam::update);
@@ -65,18 +81,12 @@ void ofApp::end(){
 void ofApp::draw(){
     mapping->bind();
     
-    ofBackground (0,191,255) ;
+    ofBackground (0,0,0) ;
 //ISLA CO2
     ofPushMatrix();
         ofPushStyle();
         ofSetColor(255);
-    
         isla.draw();
-    ofSetColor(85,98,112);
-        franchise.drawString(ofToString(isla.islaSize/0.8) + "m^2",20,30);
-        franchise.drawString("mediria una isla de 0.5m de altura",20,60);
-        franchise.drawString("con el co2 emitido por " + ofToString(nnormales * trayectosRealesBarco) + " trayectos",20,90);
-
         ofPopStyle();
     ofPopMatrix();
 
@@ -107,30 +117,46 @@ void ofApp::draw(){
     ofPushMatrix();
     ofPushStyle();
         ofTranslate(960, 480);
-        franchiseBig.drawString("1000",20,150);
-        franchise.drawString("litros petroleo",20,190);
-        franchise.drawString("ahorrados",20,230);
+        franchise.drawString(ofToString((nsolares*100.0)/(nnormales+nsolares) )+"% de viajes solares",20,0);
+        franchise.drawString("X Co2 Ahorrado",20,30);
+        franchise.drawString("X Co2 Emitido",20,60);
+        franchise.drawString("1 Barcos en el juego \n = X barcos Reales",20,90);
+        franchise.drawString("Pasajeros Barca solar ",20,160);
+        franchise.drawString("Pasajeros Barca gasolina ",20,190);
+    
     ofPopStyle();
     ofPopMatrix();
 
     //ISLZPUZLE
     ofPushMatrix();
     ofPushStyle();
-              glEnable(GL_DEPTH_TEST);
+
+
+   // glEnable(GL_DEPTH_TEST);
     ofTranslate(0, 480);
+    ofSetColor(0,191,255);
+
+    ofRect(0, 0, islapuzle_w, islapuzle_h);
+      mislapuzle.bounce.draw(0,0);
+    ofTranslate(160, 120);
+    
     ofSetColor(0,127,127);
+    ofRotateX(px);
+    ofRotateY(py);
+    ofRotateZ(pz);
+    ofScale(zoom, zoom);
     //ofRect(0,0,islapuzle_w, islapuzle_h);
 //    cam.dolly(dolly);
    // cout << px <<endl;
-    cam.setPosition(px, py, pz);
-    cam.begin( ofRectangle(0,0,islapuzle_w, islapuzle_h) );
+    //cam.setPosition(px, py, pz);
+    //cam.begin( ofRectangle(0,0,islapuzle_w, islapuzle_h) );
 
-    cam.roll(  30*sin( ofGetElapsedTimeMillis()/ (400*PI) ) );
+    //cam.roll(  30*sin( ofGetElapsedTimeMillis()/ (400*PI) ) );
     
     mislapuzle.draw();
     
-    cam.roll(  -30*sin( ofGetElapsedTimeMillis()/ (400*PI) ) );
-    cam.end();
+   // cam.roll(  -30*sin( ofGetElapsedTimeMillis()/ (400*PI) ) );
+   // cam.end();
    // ofSetColor(255);
    // franchise.drawString("CLIMATIC",20,50);
    // franchise.drawString("CHANGE?",20,90);
@@ -173,10 +199,15 @@ void ofApp::keyPressed(int key){
     }
     if(key=='T'){
         isla.setSizeTon(6.8);
+    }if(key=='g'){
+        if(gui->isEnabled())
+            gui->disable();
+        else gui->enable();
     }
-    if(key=='s'){
-        ofxSaveCamera(cam, "ofEasyCamSettings");
+    if(key=='L'){
+        gui->saveSettings("settings.xml");
     }
+    
     mislapuzle.keyPressed(key);
 }
 

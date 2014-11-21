@@ -11,6 +11,7 @@
 #include "cheapCommRcv.h"
 #include "ofxUI.h"
 
+
 class cheapCommRcv;
 class ofApp : public ofBaseApp{
 
@@ -44,9 +45,9 @@ class ofApp : public ofBaseApp{
         void end();
     
 private:
-    ofTrueTypeFont franchise;
+    
     ofTrueTypeFont franchiseBig;
     ofxUICanvas *gui;
-    float px, py, pz;
+    float px, py, pz,zoom;
     
 };

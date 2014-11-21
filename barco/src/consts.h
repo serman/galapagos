@@ -12,9 +12,17 @@
 #define islapuzle_w  320
 #define islapuzle_h  240
 
-#define isla_w 320
+#define isla_w 480
+#define isla_h 480
+
+#define petroleo_w 683
+#define petroleo_h 498
 
 #define trayectosRealesBarco 100
 #define LITROSPETROLEOANUALES 10000
 
+extern ofTrueTypeFont franchise;
+extern int statusGlobal;
+
+enum {PRE,RUN,POST};
 #endif
