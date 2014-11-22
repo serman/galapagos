@@ -12,6 +12,7 @@ int pajarosActivos=0;
 Gif nonLoopingGif;
 boolean pause = false;
 PImage arbol;
+int totalPajaros=9;
 int barcosSolares, barcosNormales=1;
 public void setup() {
   size(480, 521,P3D);
@@ -21,7 +22,7 @@ public void setup() {
   pajaros=new ArrayList<pajaro>();
   arbol=loadImage("arbol.png");
   Ani.init(this);
-  for (int i=0; i<6; i++) {
+  for (int i=0; i<totalPajaros; i++) {
     pajaro paj= new pajaro();
     int j=i+1;
     paj.setup(i, this, "pajaro"+j+".gif");
@@ -33,6 +34,9 @@ public void setup() {
   pajaros.get(3).setDestination(284, 90);
   pajaros.get(4).setDestination(168, 168);
   pajaros.get(5).setDestination(154, 250);
+  pajaros.get(6).setDestination(74, 160);
+  pajaros.get(7).setDestination(61, 86);
+  pajaros.get(8).setDestination(175, 8);
   server = new SyphonServer(this, "pajaros");
   setupOSC();
   
@@ -56,14 +60,14 @@ public void setup() {
 void updateViz(){
  // println(barcosSolares);
  // println(barcosNormales);
-  int nuevoNumeroPajaros=round( (pajaros.size()-1)* ((float)barcosSolares/(float)(barcosNormales+barcosSolares)));
+  int nuevoNumeroPajaros=round( (pajaros.size()  )* ((float)barcosSolares/(float)(barcosNormales+barcosSolares)));
   println(pajarosActivos + ":::: "+ nuevoNumeroPajaros);
   if (nuevoNumeroPajaros>pajarosActivos){
      for(int i=pajarosActivos; i<nuevoNumeroPajaros; i++){
       pajaros.get(i).startEvent();
      } 
   }else if (nuevoNumeroPajaros<pajarosActivos){
-     for(int i=pajarosActivos; i>=nuevoNumeroPajaros; i--){
+     for(int i=pajarosActivos-1; i>=nuevoNumeroPajaros; i--){
       pajaros.get(i).dieEvent();
      } 
   }
