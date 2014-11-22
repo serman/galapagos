@@ -6,7 +6,8 @@ int statusGlobal;
 void ofApp::setup(){
     
     ofSetFrameRate(40);
-    mmenu.setup();
+   // mmenu.setup();
+    mpetrol.setup();
     
     franchise.loadFont("Franchise-Bold-hinted.ttf",25);
     franchiseBig.loadFont("Franchise-Bold-hinted.ttf",65);
@@ -55,7 +56,8 @@ void ofApp::setup(){
 void ofApp::update(){
     ofSetWindowTitle("visualizaciones fps:" + ofToString(ofGetFrameRate()));
 
-    mmenu.update();
+   // mmenu.update();
+    mpetrol.update();
         isla.update();
     mapping->update();
         mislapuzle.update();
@@ -99,11 +101,12 @@ void ofApp::draw(){
         ofTranslate(480, 520);
     ofPushMatrix();
         ofScale(0.5, 0.5);
-        mmenu.draw();
+       // mmenu.draw();
+        mpetrol.draw();
     ofPopMatrix();
         ofPushMatrix();
             ofTranslate(0 , 15);
-        franchiseBig.drawString(ofToString(mmenu.litrosAhorrados),0,50);
+       // franchiseBig.drawString(ofToString(mmenu.litrosAhorrados),0,50);
         franchise.drawString("litros petroleo",0,80);
         franchise.drawString("ahorrados con",0,110);
         franchise.drawString( ofToString((nsolares*100.0)/(nnormales+nsolares) )+"% de viajes",0,140);
@@ -127,44 +130,35 @@ void ofApp::draw(){
     ofPopStyle();
     ofPopMatrix();
 
-    //ISLZPUZLE
+//********************ISLZPUZLE*********
     ofPushMatrix();
-    ofPushStyle();
-
-
-   // glEnable(GL_DEPTH_TEST);
-    ofTranslate(0, 480);
-    ofSetColor(0,191,255);
-
-    ofRect(0, 0, islapuzle_w, islapuzle_h);
-      mislapuzle.bounce.draw(0,0);
-    ofTranslate(160, 120);
+        ofPushStyle();
+        // glEnable(GL_DEPTH_TEST);
+        ofTranslate(0, 480);
+        
+        
+        ofSetColor(0,191,255);
+        ofRect(0, 0, islapuzle_w, islapuzle_h);
+        ofPushMatrix();
+            ofTranslate(160, 120);
+            ofSetColor(0,127,127);
+            ofRotateX(px);
+            ofRotateY(py);
+            ofRotateZ(pz);
+            ofScale(zoom, zoom);
+            //cam.roll(  30*sin( ofGetElapsedTimeMillis()/ (400*PI) ) );
+   //         mislapuzle.draw();
+           // cam.roll(  -30*sin( ofGetElapsedTimeMillis()/ (400*PI) ) );
+            ofSetColor(255);
     
-    ofSetColor(0,127,127);
-    ofRotateX(px);
-    ofRotateY(py);
-    ofRotateZ(pz);
-    ofScale(zoom, zoom);
-    //ofRect(0,0,islapuzle_w, islapuzle_h);
-//    cam.dolly(dolly);
-   // cout << px <<endl;
-    //cam.setPosition(px, py, pz);
-    //cam.begin( ofRectangle(0,0,islapuzle_w, islapuzle_h) );
-
-    //cam.roll(  30*sin( ofGetElapsedTimeMillis()/ (400*PI) ) );
-    
-    mislapuzle.draw();
-    
-   // cam.roll(  -30*sin( ofGetElapsedTimeMillis()/ (400*PI) ) );
-   // cam.end();
-   // ofSetColor(255);
-   // franchise.drawString("CLIMATIC",20,50);
-   // franchise.drawString("CHANGE?",20,90);
-            glDisable(GL_DEPTH_TEST);
+        ofPopMatrix();
+        
+        franchise.drawString("CLIMATIC",20,50);
+        franchise.drawString("CHANGE?",20,90);
+        glDisable(GL_DEPTH_TEST);
+        mislapuzle.bounce.draw(0,0);
     ofPopStyle();
     ofPopMatrix();
-    
-    
     mapping->unbind();
     
     

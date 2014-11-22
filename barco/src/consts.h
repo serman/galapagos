@@ -15,8 +15,8 @@
 #define isla_w 480
 #define isla_h 480
 
-#define petroleo_w 683
-#define petroleo_h 498
+#define petroleo_w 500
+#define petroleo_h 400
 
 #define trayectosRealesBarco 100
 #define LITROSPETROLEOANUALES 10000

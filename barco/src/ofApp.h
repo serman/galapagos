@@ -10,7 +10,7 @@
 #include "ofxSyphon.h"
 #include "cheapCommRcv.h"
 #include "ofxUI.h"
-
+#include "petrol.h"
 
 class cheapCommRcv;
 class ofApp : public ofBaseApp{
@@ -43,6 +43,7 @@ class ofApp : public ofBaseApp{
         int nnormales;
         void start();
         void end();
+    petrol mpetrol;
     
 private:
     

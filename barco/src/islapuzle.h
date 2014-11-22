@@ -14,7 +14,7 @@
 #include "ofxBounce.h"
 #include "ofx3DModelLoader.h"
 #include "consts.h"
-
+#define TOTALCELLS 60
 class islapuzle{
 public:
     int w_width=islapuzle_w;
@@ -24,7 +24,7 @@ public:
         light.setPosition(100,500, 100);
         //    light.setDiffuseColor(ofColor::blue);
         light.setAmbientColor(ofColor::green);
-        light.setSpecularColor(ofColor::green);
+//        light.setSpecularColor(ofColor::green);
         ofImage background;
         background.loadImage("fondo.png");
         
@@ -44,8 +44,8 @@ public:
         franchise.setEncoding(OF_ENCODING_UTF8);
         fboIsla.allocate(w_width, h_height);
         
-        makeTissue(60, w_width*0.8, h_height*0.8, 10);
-        numCells=50;
+        makeTissue(TOTALCELLS, w_width*0.8, h_height*0.8, 10);
+        numCellsActual=50;
         rip.allocate(w_width,h_height);
         bounce.allocate(w_width,h_height);
 
@@ -70,8 +70,8 @@ public:
         
         //  Add walls (un comment one pair if you like to shape the container)
         //
-        //  voro::wall_cylinder cyl(0,0,0,0,0,20, min(_width*0.5, _height*0.5));
-        //  con.add_wall(cyl);
+          voro::wall_cylinder cyl(0,0,0,0,0,20, min(_width*0.5, _height*0.5));
+          con.add_wall(cyl);
         
         //   voro::wall_sphere sph(0, 0, 0, min(_width*0.5, _height*0.5) );
         //  con.add_wall(sph);
@@ -108,15 +108,24 @@ public:
         rip.update();
         
         bounce << rip;
+        if(ofGetFrameNum()%5==0){
+            if(numCellsActual< numCellsDestino){
+                numCellsActual++;
+            }
+            if(numCellsActual> numCellsDestino){
+                numCellsActual--;
+            }
+        }
     }
     
     void updateResult(int solar, int normal){
         float ratio=solar/normal;
         cout << "update updateResult isla Puzle" << endl ;
-        
+        numCellsDestino=ofMap(ratio,0,1,0,TOTALCELLS);
+        ofClamp(numCellsDestino,0,TOTALCELLS);
     }
     void start(){
-        
+        numCellsDestino=TOTALCELLS/2;
     }
     void end(){
         
@@ -131,17 +140,15 @@ public:
       //  bounce.draw(0,0);
 
         ofPushMatrix();
-                light.enable();
-        ofEnableLighting();
-  
-
-        
+        light.enable();
+        ofEnableLighting();       
         /* for (int i = 0; i < cellCentroids.size(); i++){
          ofSetColor(0);
          ofSphere(cellCentroids[i], cellRadius[i]*0.15);
          }*/
-        
-        for(int i = 0; i < numCells; i++){
+              light.setAmbientColor(ofColor::green);
+        ofEnableDepthTest();
+        for(int i = 0; i < numCellsActual; i++){
             ofSetColor(100,240);
             cellMeshes[i].drawFaces();
             ofPushStyle();
@@ -152,17 +159,18 @@ public:
             cellMeshWireframes[i].ofMesh::draw( OF_MESH_POINTS);
             ofPopStyle();
         }
+        ofDisableDepthTest();
         
         //tortuga
         glPushMatrix();
-            glTranslatef(cellMeshWireframes[0].getVertex(0).x,
+        glTranslatef(cellMeshWireframes[0].getVertex(0).x,
                          cellMeshWireframes[0].getVertex(0).y,
                          cellMeshWireframes[0].getVertex(0).z);
 
         squirrelModel.setRotation(0, tortugaX, 1, 0, 0);
         squirrelModel.setRotation(1, tortugaY, 0, 1, 0);
         squirrelModel.setRotation(2, tortugaZ, 0, 0, 1);
-
+        light.setAmbientColor(ofColor::grey);
             ofSetColor(255, 255, 255, 255);
             squirrelModel.draw();
         
@@ -185,9 +193,9 @@ public:
         if ( key == ' '){
             makeTissue(50, w_width*0.8, h_height*0.8,20);
         } else     if ( key == '+'){
-            if(numCells<cellMeshes.size())numCells++;
+            if(numCellsActual<cellMeshes.size())numCellsActual++;
         }else     if ( key == '-'){
-            if(numCells>0)numCells--;
+            if(numCellsActual>0)numCellsActual--;
         }
         else  if (key == OF_KEY_UP){
             rip.damping += 0.01;
@@ -207,7 +215,8 @@ private:
     vector<float>   cellRadius;
     vector<ofVboMesh>  cellMeshes;
     vector<ofVboMesh>  cellMeshWireframes;
-    int numCells;
+    int numCellsActual;
+    int numCellsDestino;
     
     bool direction;
     ofxRipples  rip;
