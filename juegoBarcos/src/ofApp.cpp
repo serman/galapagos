@@ -87,6 +87,9 @@ void ofApp::keyPressed(int key){
     if(key == ' ') {
 		mtracking.background.reset();
 	}
+    if(key== 'd'){
+        mtracking.bdrawDebug=!mtracking.bdrawDebug;
+    }
 }
 
 //--------------------------------------------------------------

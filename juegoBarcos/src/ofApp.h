@@ -5,7 +5,7 @@
 #include "cameraTracking.h"
 #include "cheapComm.h"
 //#define TOTAL_BARCOS 182
-#define TOTAL_BARCOS 24
+#define TOTAL_BARCOS 200
 class ofApp : public ofBaseApp{
     enum statuses{SINJUGADOR, JUGANDO,FIN};
 	public:

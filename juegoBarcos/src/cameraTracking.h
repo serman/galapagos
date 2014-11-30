@@ -68,6 +68,7 @@ public:
         //contourFinder.setMinAreaRadius(minRadius);
         //contourFinder.setMaxAreaRadius(maxRadius);
                     thresholded.setImageType(OF_IMAGE_GRAYSCALE);
+        bdrawDebug=false;
     }
     
     void update(){
@@ -133,25 +134,26 @@ public:
 //        strokeWeight(4);
         ofNoFill();
         ofEllipse(loc.x, loc.y, 10, 10);
-        ofPushMatrix();
-            ofSetColor(255);
-            ofTranslate(1024,0);
-        if(!enableBGS){
-           // contourFinder.draw();
+        if(bdrawDebug){
+            ofPushMatrix();
+                ofSetColor(255);
+                ofTranslate(50,0);
+            if(!enableBGS){
+               // contourFinder.draw();
 
-            drawMatrix();
-        }
-        ofSetColor(255);
-        grayImg.draw(0 ,200,320,240);
-        
-        if(!enableBGS){
-            grayImgT.draw(0,450,320,240);
-        }else{
-            contourFinder.draw();
-            grayImgT.draw(0,450);
+                drawMatrix();
+            }
+            ofSetColor(255);
+            grayImg.draw(0 ,200,320,240);
             
+            if(!enableBGS){
+                grayImgT.draw(0,450,320,240);
+            }else{
+                contourFinder.draw();
+                grayImgT.draw(0,450);
+                
+            }
         }
-        
         ofPopMatrix();
        // camera.draw(0,0);
     }
@@ -258,6 +260,7 @@ public:
         }
     }
         ofxCv::RunningBackground background;
+    bool    bdrawDebug;
 private:
     ofVideoGrabber camera;
     ofVideoPlayer player;
