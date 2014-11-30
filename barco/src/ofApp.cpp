@@ -40,7 +40,7 @@ void ofApp::setup(){
     pz=0;
     zoom=1.0;
     
-    gui=new ofxUICanvas(1050,0,200,350);
+    gui=new ofxUICanvas(700,0,200,350);
     gui->addSlider("x", -200, 200, &px);
     gui->addSlider("y", -200, 200, &py);
     gui->addSlider("z", -200, 200, &pz);
@@ -119,14 +119,14 @@ void ofApp::draw(){
     ofPopMatrix();
 
 //PAJAROS
-    mClient.draw(480, 0);
+    mClient.draw(480, 0,pajaros_w,pajaros_h);
 
 //BUQUE
     ofPushMatrix();
         ofPushStyle();
-        ofTranslate(480, 520);
+        ofTranslate(islapuzle_w+10, pajaros_h);
         ofPushMatrix();
-        ofScale(0.5, 0.5);
+       // ofScale(0.5, 0.5);
        // mmenu.draw();
         mpetrol.draw();
         ofPopMatrix();
@@ -137,13 +137,13 @@ void ofApp::draw(){
     //marcador
     ofPushMatrix();
     ofPushStyle();
-        ofTranslate(960, 480);
-        franchise.drawString(ofToString((nsolares*100.0)/(nnormales+nsolares) )+"% de viajes solares",20,0);
-        franchise.drawString("X Co2 Ahorrado",20,30);
-        franchise.drawString("X Co2 Emitido",20,60);
-        franchise.drawString("1 Barcos en el juego \n = X barcos Reales",20,90);
-        franchise.drawString("Pasajeros Barca solar ",20,160);
-        franchise.drawString("Pasajeros Barca gasolina ",20,190);
+        ofTranslate(islapuzle_w+petroleo_w, 500);
+        franchise.drawString(ofToString((nsolares*100.0)/(nnormales+nsolares) )+"% de viajes solares",0,0);
+        franchise.drawString("X Co2 Ahorrado",0,30);
+        franchise.drawString("X Co2 Emitido",0,60);
+        franchise.drawString("1 Barcos en el juego \n = X barcos Reales",0,90);
+        franchise.drawString("Pasajeros Barca solar ",0,160);
+        franchise.drawString("Pasajeros Barca gasolina ",0,190);
     ofPopStyle();
     ofPopMatrix();
 
@@ -164,7 +164,7 @@ void ofApp::draw(){
             ofRotateZ(pz);
             ofScale(zoom, zoom);
             //cam.roll(  30*sin( ofGetElapsedTimeMillis()/ (400*PI) ) );
-            mislapuzle.draw();
+           // mislapuzle.draw();
            // cam.roll(  -30*sin( ofGetElapsedTimeMillis()/ (400*PI) ) );
             ofSetColor(255);
     

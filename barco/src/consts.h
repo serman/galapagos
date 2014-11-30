@@ -15,8 +15,20 @@
 #define isla_w 480
 #define isla_h 480
 
-#define petroleo_w 500
-#define petroleo_h 400
+
+#define ratioPanelizaArriba 1
+#define ratioPanelizaAbajo 70/60
+#define ratioPanelDereArriba 69/69
+#define ratioPanelLargo 120/21
+
+#define pajaros_w   480*0.93
+
+#define pajaros_h   520*0.93
+
+#define ratioPetroleo 1.2
+#define petroleo_h (768-pajaros_h)
+#define petroleo_w petroleo_h*ratioPetroleo
+
 
 #define trayectosRealesBarco 100
 #define LITROSPETROLEOANUALES 10000
