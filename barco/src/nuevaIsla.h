@@ -9,7 +9,7 @@
 #ifndef barco_nuevaIsla_h
 #define barco_nuevaIsla_h
 #include "consts.h"
-
+extern float ton_co2_consumido;
 class nuevaIsla{
     
 public:
@@ -56,25 +56,37 @@ public:
         //particulas en espera
         for ( int i = islaSize ; i < particles.size();  i+=1 ){
             ofVec3f p=ofVec3f( 200,200 );
-            particles[i].steer(p,true,2,5);
+            particles[i].steer(p,true,2,30);
             particles[i].update();
             mesh.addVertex(particles[i].position);
             mesh.addColor(ofColor(247,244,236,0));
         }
+        updateResult();
     }
     
-    void updateResult(int solar, int normal){
-        float ratio=solar/normal;
+    void updateResult(){
+        //float ratio=solar/normal;
         //cada barco supone 100 trayectos
         //
-        float toneladas_100_trayectos= 100 * (8.85 / (50*365));
-        setSizeTon(normal*toneladas_100_trayectos);
+        //float toneladas_100_trayectos= 100 * (8.85 / (50*365));
+        setSizeTon(ton_co2_consumido);
         
         cout << "update updateResult nueva isla" << endl ;
         
     }
-    
     void draw(){
+        if(statusGlobal==RUN){
+            drawNormal();
+        }
+        else if(statusGlobal==PRE){
+            drawPre();
+        }
+        else if(statusGlobal==POST){
+            drawPost();
+        }
+    }
+
+    void drawNormal(){
         if(statusGlobal==PRE) drawPre();
         if(statusGlobal==POST) drawPost();
         else if(statusGlobal==RUN){
@@ -111,8 +123,6 @@ public:
         ofSetColor(255, 255, 255);
         franchise.drawString("Densidad Co2: ",20,30);
         franchise.drawString("altura de la isla: 0.5m",20,60);
-
-
     }
     
     void setSize(int _size){

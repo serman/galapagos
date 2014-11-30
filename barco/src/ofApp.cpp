@@ -2,10 +2,17 @@
 
 ofTrueTypeFont franchise;
 int statusGlobal;
+
+//MAGNITUDES variables globales
+float ton_petroleo_ahorrado, ton_petroleo_consumido, ton_co2_ahorrado, ton_co2_consumido;
+int nsolares;
+int nnormales;
+float ratio;
+
 //--------------------------------------------------------------
 void ofApp::setup(){
     
-    ofSetFrameRate(40);
+    ofSetFrameRate(60);
    // mmenu.setup();
     mpetrol.setup();
     
@@ -42,14 +49,29 @@ void ofApp::setup(){
     gui->addSlider("tortugaX", -200, 200, &(mislapuzle.tortugaX));
     gui->addSlider("tortugay", -200, 200, &(mislapuzle.tortugaY));
     gui->addSlider("tortugaz", -200, 200, &(mislapuzle.tortugaZ));
+
+//    gui->addSlider("toneladasPetroleo", 0, 30, &(ton_petroleo_ahorrado) );
+    gui->addIntSlider("barcos solares", 0, 300, &(nsolares) );
+    gui->addIntSlider("barcos normales", 0, 300, &(nnormales) );
     
+    ofAddListener(gui->newGUIEvent,this,&ofApp::gui2Event);
     gui->loadSettings("settings.xml");
-    nnormales=1;
-    nsolares=0;
+    reset();
 
    // cam.enableMouseInput();
     
 //    ofAddListener( ofEvents().update , this, &ofEasyCam::update);
+}
+
+void ofApp::gui2Event(ofxUIEventArgs &e)
+{
+	string name = e.widget->getName();
+	int kind = e.widget->getKind();
+    updateResult(nsolares,nnormales);
+    if(name == "Adaptative")
+    {
+        
+    }
 }
 
 //--------------------------------------------------------------
@@ -68,16 +90,20 @@ void ofApp::update(){
 void ofApp::updateResult(int solar, int normal){
     nsolares=solar;
     nnormales=normal;
+    
+    float toneladas_Petroleo_N_trayectos= 0.1; //TODO ESTO FALTA
+    float toneladas_CO2_consumido_N_trayectos= 100 * (8.85 / (50*365));
+    ton_petroleo_ahorrado=nsolares*toneladas_Petroleo_N_trayectos;
+    if(normal>0)
+        ratio=solar/normal;
+    else ratio=0;
+    ton_co2_consumido=normal*toneladas_CO2_consumido_N_trayectos;
+
     cout << "update updateResult ofApp" << endl ;
 }
 
 
-void ofApp::start(){
-    
-}
-void ofApp::end(){
-    
-}
+
 
 //--------------------------------------------------------------
 void ofApp::draw(){
@@ -99,18 +125,10 @@ void ofApp::draw(){
     ofPushMatrix();
         ofPushStyle();
         ofTranslate(480, 520);
-    ofPushMatrix();
+        ofPushMatrix();
         ofScale(0.5, 0.5);
        // mmenu.draw();
         mpetrol.draw();
-    ofPopMatrix();
-        ofPushMatrix();
-            ofTranslate(0 , 15);
-       // franchiseBig.drawString(ofToString(mmenu.litrosAhorrados),0,50);
-        franchise.drawString("litros petroleo",0,80);
-        franchise.drawString("ahorrados con",0,110);
-        franchise.drawString( ofToString((nsolares*100.0)/(nnormales+nsolares) )+"% de viajes",0,140);
-        franchise.drawString("solares  anuales" ,0,170);
         ofPopMatrix();
         ofPopStyle();
     ofPopMatrix();
@@ -126,7 +144,6 @@ void ofApp::draw(){
         franchise.drawString("1 Barcos en el juego \n = X barcos Reales",20,90);
         franchise.drawString("Pasajeros Barca solar ",20,160);
         franchise.drawString("Pasajeros Barca gasolina ",20,190);
-    
     ofPopStyle();
     ofPopMatrix();
 
@@ -147,7 +164,7 @@ void ofApp::draw(){
             ofRotateZ(pz);
             ofScale(zoom, zoom);
             //cam.roll(  30*sin( ofGetElapsedTimeMillis()/ (400*PI) ) );
-   //         mislapuzle.draw();
+            mislapuzle.draw();
            // cam.roll(  -30*sin( ofGetElapsedTimeMillis()/ (400*PI) ) );
             ofSetColor(255);
     
@@ -167,13 +184,30 @@ void ofApp::draw(){
     ofFill();
     ofDisableAlphaBlending();
     mapping->draw();
+}
 
-    
+void ofApp::reset(){
+    nnormales=1;
+    nsolares=0;
+    ratio=0;
+    ton_co2_consumido=0;    
+}
+
+void ofApp::start(){
+    mpetrol.start();
+    isla.start();
+    mislapuzle.start();
+}
+
+void ofApp::end(){
+    mpetrol.end();
+    isla.end();
+    mislapuzle.end();
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    if(key=='A'){
+ /*   if(key=='A'){
         mmenu.start(_100);
     }
     if(key=='S'){
@@ -184,7 +218,7 @@ void ofApp::keyPressed(int key){
     }
     if(key=='F'){
         mmenu.start(_40);
-    }
+    } */
     if(key=='O'){
         isla.setSize(isla.islaSize+30);
     }
@@ -201,7 +235,15 @@ void ofApp::keyPressed(int key){
     if(key=='L'){
         gui->saveSettings("settings.xml");
     }
-    
+    if(key=='1'){
+        statusGlobal=PRE;
+    }
+    if(key=='2'){
+        statusGlobal=RUN;
+    }
+    if(key=='3'){
+        statusGlobal=POST;
+    }
     mislapuzle.keyPressed(key);
 }
 

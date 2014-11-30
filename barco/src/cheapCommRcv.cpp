@@ -28,20 +28,21 @@ void cheapCommRcv::update(){
 		// check for mouse moved message
         cout << m.getAddress()<<endl;
         if(m.getAddress()=="/marcador"){
-            ((ofApp*)ofGetAppPtr())->mislapuzle.updateResult(m.getArgAsInt32(0),m.getArgAsInt32(1));
+           // ((ofApp*)ofGetAppPtr())->mislapuzle.updateResult(m.getArgAsInt32(0),m.getArgAsInt32(1));
             ((ofApp*)ofGetAppPtr())->updateResult(m.getArgAsInt32(0),m.getArgAsInt32(1));
-            ((ofApp*)ofGetAppPtr())->isla.updateResult(m.getArgAsInt32(0),m.getArgAsInt32(1));
-            ((ofApp*)ofGetAppPtr())->mmenu.updateResult(m.getArgAsInt32(0),m.getArgAsInt32(1));
+            //((ofApp*)ofGetAppPtr())->isla.updateResult(m.getArgAsInt32(0),m.getArgAsInt32(1));
+            //((ofApp*)ofGetAppPtr())->mmenu.updateResult(m.getArgAsInt32(0),m.getArgAsInt32(1));
+           // ((ofApp*)ofGetAppPtr())->mpetrol.updateResult(m.getArgAsInt32(0),m.getArgAsInt32(1));
         }
         else if(m.getAddress()=="/end"){
-            ((ofApp*)ofGetAppPtr())->mislapuzle.end();
+         //   ((ofApp*)ofGetAppPtr())->mislapuzle.end();
             ((ofApp*)ofGetAppPtr())->end();
-            ((ofApp*)ofGetAppPtr())->isla.end();
-            ((ofApp*)ofGetAppPtr())->mmenu.end();
+         //   ((ofApp*)ofGetAppPtr())->isla.end();
+         //   ((ofApp*)ofGetAppPtr())->mmenu.end();
 
         }
         else if(m.getAddress()=="/start"){
-            
+            ((ofApp*)ofGetAppPtr())->start();
         }
        
     }

@@ -15,6 +15,8 @@
 #include "ofx3DModelLoader.h"
 #include "consts.h"
 #define TOTALCELLS 60
+extern float ratio;
+
 class islapuzle{
 public:
     int w_width=islapuzle_w;
@@ -70,13 +72,13 @@ public:
         
         //  Add walls (un comment one pair if you like to shape the container)
         //
-          voro::wall_cylinder cyl(0,0,0,0,0,20, min(_width*0.5, _height*0.5));
-          con.add_wall(cyl);
+        //  voro::wall_cylinder cyl(0,0,0,0,0,20, min(_width*0.5, _height*0.5));
+        //  con.add_wall(cyl);
         
         //   voro::wall_sphere sph(0, 0, 0, min(_width*0.5, _height*0.5) );
         //  con.add_wall(sph);
         
-       //     voro::wall_cone cone(0,0,min(_width*0.5, _height*0.5),0,0,-1,atan(0.5));
+        //    voro::wall_cone cone(0,0,min(_width*0.5, _height*0.5),0,0,-1,atan(0.5));
         //    con.add_wall(cone);
         
         //  Add the cell seed to the container
@@ -96,8 +98,7 @@ public:
     }
     
     //--------------------------------------------------------------
-    void update(){
-        
+    void update(){        
         rip.begin();
         ofFill();
         ofSetColor(ofNoise( ofGetFrameNum() ) * 255 * 5, 255);
@@ -106,6 +107,7 @@ public:
             ofEllipse(ofRandom(0,w_width),ofRandom(0,h_height), 20,20);
         rip.end();
         rip.update();
+        updateResult();
         
         bounce << rip;
         if(ofGetFrameNum()%5==0){
@@ -116,13 +118,15 @@ public:
                 numCellsActual--;
             }
         }
+        updateResult();
     }
     
-    void updateResult(int solar, int normal){
-        float ratio=solar/normal;
-        cout << "update updateResult isla Puzle" << endl ;
+    void updateResult(){
+//        float ratio=solar/normal;
+//        cout << "update updateResult isla Puzle" << endl ;
         numCellsDestino=ofMap(ratio,0,1,0,TOTALCELLS);
         ofClamp(numCellsDestino,0,TOTALCELLS);
+        cout << "cells destino: " << numCellsDestino << endl ;
     }
     void start(){
         numCellsDestino=TOTALCELLS/2;
@@ -130,9 +134,28 @@ public:
     void end(){
         
     }
+    void draw(){
+        if(statusGlobal==RUN){
+            drawNormal();
+        }
+        else if(statusGlobal==PRE){
+            drawPre();
+        }
+        else if(statusGlobal==POST){
+            drawPost();
+        }
+    }
+    
+    void drawPre(){
+        
+    }
+    
+    void drawPost(){
+        
+    }
     
     //--------------------------------------------------------------
-    void draw(){
+    void drawNormal(){
 
       //  fboIsla.begin();
        

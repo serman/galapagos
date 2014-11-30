@@ -38,10 +38,10 @@
             <vertex x="563" y="755"></vertex>
         </outputVertices>
         <inputPolygon>
-            <vertex x="480" y="523"></vertex>
-            <vertex x="730" y="523"></vertex>
-            <vertex x="730" y="718"></vertex>
-            <vertex x="480" y="718"></vertex>
+            <vertex x="482" y="522"></vertex>
+            <vertex x="729" y="522"></vertex>
+            <vertex x="729" y="720"></vertex>
+            <vertex x="482" y="720"></vertex>
         </inputPolygon>
     </shape>
     <shape id="3">

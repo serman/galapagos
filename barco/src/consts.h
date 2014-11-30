@@ -24,5 +24,5 @@
 extern ofTrueTypeFont franchise;
 extern int statusGlobal;
 
-enum {PRE,RUN,POST};
+enum statuses{PRE,RUN,POST};
 #endif

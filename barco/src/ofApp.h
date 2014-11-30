@@ -39,11 +39,15 @@ class ofApp : public ofBaseApp{
         ofxSyphonClient mClient;
         cheapCommRcv *myOSCrcv;
         void updateResult(int solar, int normal);
-        int nsolares;
-        int nnormales;
+        void reset();
         void start();
         void end();
-    petrol mpetrol;
+        void gui2Event(ofxUIEventArgs &e);
+        petrol mpetrol;
+    
+        /**** magnitudes ***/
+    
+    
     
 private:
     
