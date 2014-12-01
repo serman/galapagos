@@ -167,7 +167,7 @@ public:
         ofPushMatrix();
         ofEnableAlphaBlending();
         ofSetColor(255,255);
-        bounce.draw(0,0);
+        bounce.draw(0,0,islapuzle_w,islapuzle_h);
         ofDisableAlphaBlending();
         
         light.enable();

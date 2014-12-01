@@ -112,9 +112,9 @@ void ofApp::draw(){
 
 
     ofBackground (0,0,0) ;
-        ofNoFill();
+    ofNoFill();
     
-        ofRect(0,0,1024,768);
+    ofRect(0,0,1024,768);
     ofFill();
 //ISLA CO2
     ofPushMatrix();
@@ -127,42 +127,48 @@ void ofApp::draw(){
 //PAJAROS
     mClient.draw(480, 0,pajaros_w,pajaros_h);
 
-//BUQUE
+//Petroleo
     ofPushMatrix();
         ofPushStyle();
         ofTranslate(islapuzle_w+10, pajaros_h);
-        ofPushMatrix();
        // ofScale(0.5, 0.5);
        // mmenu.draw();
         mpetrol.draw();
-        ofPopMatrix();
         ofPopStyle();
     ofPopMatrix();
 
 
-    //marcador
+//*********marcador********
     ofPushMatrix();
     ofPushStyle();
+    if(statusGlobal==RUN){
+        ofEnableAlphaBlending();
         ofTranslate(islapuzle_w+petroleo_w+20, 500);
-    ofSetColor(121,189,154);
-    ofRect(0, 0, textos_w, textos_h);
-    ofSetColor(0);
-    
-    //En el juego
- //       franchise.drawString(ofToString((nsolares*100.0)/(nnormales+nsolares) )+"% de viajes solares",0,0);
- //       franchise.drawString("1 Trayectos en el juego \n = X Trayectos Reales",0,90);
+        ofSetColor(255,ofClamp((ofGetElapsedTimeMillis()-timeLastChange )/10.0,0,255));
+        ofRect(0, 0, textos_w, textos_h);
+        ofNoFill();
+        ofSetHexColor(0x9DE0AD);
+        ofSetLineWidth(3);
+            ofRect(0, 0, textos_w, textos_h);
+        ofFill();
+            ofSetColor(0);
+        
+        //En el juego
+     //       franchise.drawString(ofToString((nsolares*100.0)/(nnormales+nsolares) )+"% de viajes solares",0,0);
+     //       franchise.drawString("1 Trayectos en el juego \n = X Trayectos Reales",0,90);
 
-    // en la pantalla alargada
-        franchise.drawString("XXX Ton Co2 Ahorrado",0,30);
-        franchise.drawString("X Ton Co2 Emitido",0,60);
+        // en la pantalla alargada
+            franchise.drawString("XXX Ton Co2 Ahorrado",0,30);
+            franchise.drawString("X Ton Co2 Emitido",0,60);
 
-        franchise.drawString("XXXX Litros de Diesel ahorrado",0,90);
-        franchise.drawString("XXXX Litros de Diesel consumidos",0,120);
-    
-    
-    //ESte dato moverlo a la pantalla de juego, cuando termina.
-  //      franchise.drawString("Pasajeros Barca solar ",0,160);
-  //      franchise.drawString("Pasajeros Barca gasolina ",0,190);
+            franchise.drawString("XXXX Litros de Diesel ahorrado",0,90);
+            franchise.drawString("XXXX Litros de Diesel consumidos",0,120);
+        ofDisableAlphaBlending();
+        
+        //ESte dato moverlo a la pantalla de juego, cuando termina.
+      //      franchise.drawString("Pasajeros Barca solar ",0,160);
+      //      franchise.drawString("Pasajeros Barca gasolina ",0,190);
+    }
     ofPopStyle();
     ofPopMatrix();
 
@@ -173,8 +179,8 @@ void ofApp::draw(){
         ofTranslate(0, 480);
         
         
-        ofSetColor(0,191,255);
-        ofRect(0, 0, islapuzle_w, islapuzle_h);
+        //ofSetColor(0,191,255);
+       // ofRect(0, 0, islapuzle_w, islapuzle_h);
         ofPushMatrix();
  
             //cam.roll(  30*sin( ofGetElapsedTimeMillis()/ (400*PI) ) );

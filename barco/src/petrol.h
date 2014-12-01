@@ -69,7 +69,7 @@ class petrol{
         }
     
     void drawNormal(){
-        ofSetColor(0,191,255);
+        ofSetColor(197,224,220);
         ofRect(0,0,petroleo_w,petroleo_h);
         ofSetColor(255);
         particles.draw();

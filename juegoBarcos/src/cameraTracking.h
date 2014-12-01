@@ -183,7 +183,7 @@ public:
         ofPopMatrix();
         if(enableBGS){
             ofPushMatrix();
-            ofScale(1024/camWidth, 768/camHeight);
+            ofScale(ratiow, ratioh);
             contourFinder.draw();
             ofPopMatrix();
             
@@ -229,7 +229,10 @@ public:
         else{
             for(int i=0; i< contourFinder.nBlobs; i++){
                 for(int z=0; z<mbarcos.size(); z++){
-                    if( mbarcos[z].intersects(contourFinder.blobs[i].boundingRect)){
+                    ofRectangle r=contourFinder.blobs[i].boundingRect;
+                    r.x*=ratiow;
+                    r.y*=ratioh;
+                    if( mbarcos[z].intersects(r)){
                         mbarcos.at(z).type=1;
                     }
                 }
