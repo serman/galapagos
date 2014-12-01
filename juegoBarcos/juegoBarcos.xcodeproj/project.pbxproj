@@ -113,6 +113,7 @@
 		F7B4385C1A2BCABA00651DD6 /* tilt.c in Sources */ = {isa = PBXBuildFile; fileRef = F7B438421A2BCABA00651DD6 /* tilt.c */; };
 		F7B4385D1A2BCABA00651DD6 /* usb_libusb10.c in Sources */ = {isa = PBXBuildFile; fileRef = F7B438431A2BCABA00651DD6 /* usb_libusb10.c */; };
 		F7B4385E1A2BCABA00651DD6 /* usb-1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F7B4384B1A2BCABA00651DD6 /* usb-1.0.a */; };
+		F7B6F67D1A2CCEEA007EE448 /* boxAlign.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7B6F67B1A2CCEEA007EE448 /* boxAlign.cpp */; };
 		F8D05F7C7F785CE323983B47 /* ofxUITextInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 06C7032F68D99A145A53CB6F /* ofxUITextInput.cpp */; };
 		F9C20834354ACC8337320B8C /* ofxUIMultiImageToggle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1C5ED4467DFF0AC3482E9362 /* ofxUIMultiImageToggle.cpp */; };
 		FB09C6B2A1DA0EA217240CB8 /* ofxCvGrayscaleImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 057122A817D12571F8C0C7A4 /* ofxCvGrayscaleImage.cpp */; };
@@ -454,6 +455,8 @@
 		F7B438441A2BCABA00651DD6 /* usb_libusb10.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = usb_libusb10.h; sourceTree = "<group>"; };
 		F7B438481A2BCABA00651DD6 /* libusb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libusb.h; sourceTree = "<group>"; };
 		F7B4384B1A2BCABA00651DD6 /* usb-1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "usb-1.0.a"; sourceTree = "<group>"; };
+		F7B6F67B1A2CCEEA007EE448 /* boxAlign.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = boxAlign.cpp; sourceTree = "<group>"; };
+		F7B6F67C1A2CCEEA007EE448 /* boxAlign.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = boxAlign.h; sourceTree = "<group>"; };
 		F7C83C3F1A16530000C2A4A4 /* barcos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = barcos.h; sourceTree = "<group>"; };
 		F7C83C401A16531C00C2A4A4 /* cameraTracking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cameraTracking.h; sourceTree = "<group>"; };
 		F886EBA3F8F05C7F74633933 /* devmem2d.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = devmem2d.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/gpu/devmem2d.hpp; sourceTree = SOURCE_ROOT; };
@@ -1067,6 +1070,8 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				F7B6F67B1A2CCEEA007EE448 /* boxAlign.cpp */,
+				F7B6F67C1A2CCEEA007EE448 /* boxAlign.h */,
 				F7B352EE1A188C95005B8A30 /* cheapComm.cpp */,
 				F7B352EF1A188C95005B8A30 /* cheapComm.h */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
@@ -1543,6 +1548,7 @@
 				43BADBB2FE0F17D34B57A705 /* ofxUIScrollableCanvas.cpp in Sources */,
 				F7B4385C1A2BCABA00651DD6 /* tilt.c in Sources */,
 				740A58CBFDFE578C83A349AF /* ofxUISlider.cpp in Sources */,
+				F7B6F67D1A2CCEEA007EE448 /* boxAlign.cpp in Sources */,
 				ADE7C2AFC51E3F7E5E389026 /* ofxUISortableList.cpp in Sources */,
 				F7B353251A188CB2005B8A30 /* OscPrintReceivedElements.cpp in Sources */,
 				BFEFCE32DAFE10A8EB519F6C /* ofxUISpacer.cpp in Sources */,

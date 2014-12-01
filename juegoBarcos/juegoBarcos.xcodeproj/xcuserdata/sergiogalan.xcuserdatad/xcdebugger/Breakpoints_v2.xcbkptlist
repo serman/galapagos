@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/cameraTracking.h"
-            timestampString = "439097671.137015"
+            timestampString = "439146353.122463"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "150"
-            endingLineNumber = "150"
+            startingLineNumber = "169"
+            endingLineNumber = "169"
             landmarkName = "draw()"
             landmarkType = "5">
          </BreakpointContent>
@@ -42,27 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/cameraTracking.h"
-            timestampString = "439097671.137015"
+            timestampString = "439147048.469981"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "199"
-            endingLineNumber = "199"
-            landmarkName = "checkCollisions(vector&lt;barco&gt; &amp;mbarcos)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "1000"
-            continueAfterRunningActions = "No"
-            filePath = "src/cameraTracking.h"
-            timestampString = "439097671.137015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "192"
-            endingLineNumber = "192"
+            startingLineNumber = "232"
+            endingLineNumber = "232"
             landmarkName = "checkCollisions(vector&lt;barco&gt; &amp;mbarcos)"
             landmarkType = "5">
          </BreakpointContent>
@@ -74,27 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/cameraTracking.h"
-            timestampString = "439097671.137015"
+            timestampString = "439147048.469981"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "194"
-            endingLineNumber = "194"
-            landmarkName = "checkCollisions(vector&lt;barco&gt; &amp;mbarcos)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/cameraTracking.h"
-            timestampString = "439097671.137015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "246"
-            endingLineNumber = "246"
+            startingLineNumber = "284"
+            endingLineNumber = "284"
             landmarkName = "drawMatrixVideo()"
             landmarkType = "5">
          </BreakpointContent>
