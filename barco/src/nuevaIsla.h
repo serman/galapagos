@@ -71,7 +71,7 @@ public:
         //float toneladas_100_trayectos= 100 * (8.85 / (50*365));
         setSizeTon(ton_co2_consumido);
         
-        cout << "update updateResult nueva isla" << endl ;
+     //   cout << "update updateResult nueva isla" << endl ;
         
     }
     void draw(){
@@ -87,9 +87,9 @@ public:
     }
 
     void drawNormal(){
-        if(statusGlobal==PRE) drawPre();
-        if(statusGlobal==POST) drawPost();
-        else if(statusGlobal==RUN){
+//        if(statusGlobal==PRE) drawPre();
+//        if(statusGlobal==POST) drawPost();
+
             ofSetColor(255, 255, 255, 255);
             ofSetLineWidth(0);
             mesh.setMode(OF_PRIMITIVE_POINTS);
@@ -103,26 +103,33 @@ public:
             ofPopMatrix();
             ofDisableAlphaBlending();
             ofSetColor(85,98,112);
-            franchise.drawString("Tendríamos una isla de " +ofToString(islaSize/0.8) + "m^2",20,30);
-            franchise.drawString("con el co2 emitido por",20,60);
-            franchise.drawString("" + ofToString(normal * trayectosRealesBarco) + " trayectos de barcos de gasoil",20,90);
-        }
+            franchise.drawString(ofToString(islaSize/0.8) + "m^2",20,25);
+            //franchise.drawString("con el co2 emitido por",20,60);
+         //   franchise.drawString("" + ofToString(normal * trayectosRealesBarco) + " trayectos de barcos de gasoil",20,90);
         
     }
     
     void drawPre(){
         ofSetColor(0,0,0);
         ofRect(0, 0, 640/zoomRatio, 640/zoomRatio);
-        ofSetColor(255, 255, 255);
-        franchise.drawString("drawPre: ",20,30);
+        ofSetColor(255, ofClamp((ofGetElapsedTimeMillis()-timeLastChange )/10.0,0,255) );
+        mapa.draw(0,0,640/zoomRatio, 640/zoomRatio);
     }
 
     void drawPost(){
-        ofSetColor(0, 0, 0);
+
+        ofSetColor(255);
+        drawNormal();
+        ofEnableAlphaBlending();
+        ofSetColor(255, ofClamp((ofGetElapsedTimeMillis()-timeLastChange )/10.0,0,164) );
         ofRect(0, 0, 640/zoomRatio, 640/zoomRatio);
-        ofSetColor(255, 255, 255);
-        franchise.drawString("Densidad Co2: ",20,30);
-        franchise.drawString("altura de la isla: 0.5m",20,60);
+        ofSetColor(0, ofClamp((ofGetElapsedTimeMillis()-timeLastChange )/10.0,0,256) );
+
+        franchise.drawString("El co2 emitido equivale a\n una isla que emerge 0.5 m. \ny tiene una superficie de "+ofToString(islaSize/0.8)+" m³ ",40,80);
+        
+       // ofScale(0.8,0,8);
+        franchise.drawString("Consideramos que una tonelada de Co2 tiene \nun volumen de 556.2m³   ",40,300);
+        ofDisableAlphaBlending();
     }
     
     void setSize(int _size){
@@ -130,8 +137,8 @@ public:
     }
     
     void setSizeTon(float tons){
-        islaSize=  round( ((556.2*tons)/0.5) *(0.88/zoomRatio));
-        cout <<islaSize << "\n";
+        islaSize=  round( ((556.2*tons)/0.5) * (0.88/zoomRatio));
+        //cout <<islaSize << "\n";
     }
     void start(){
         

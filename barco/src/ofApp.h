@@ -44,15 +44,15 @@ class ofApp : public ofBaseApp{
         void end();
         void gui2Event(ofxUIEventArgs &e);
         petrol mpetrol;
-    
+
         /**** magnitudes ***/
     
     
     
 private:
     
-    ofTrueTypeFont franchiseBig;
+    //ofTrueTypeFont franchiseBig;
     ofxUICanvas *gui;
-    float px, py, pz,zoom;
+
     
 };

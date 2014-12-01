@@ -11,9 +11,9 @@
 #include "ofxLiquidFun.h"
 #include "consts.h"
 #define MAXBALLS 10000
-#define MAXSAVING 20
+#define MAXSAVING 20000*5
 
-extern float ton_petroleo_ahorrado;
+extern float litros_petroleo_ahorrado;
 
 
 class petrol{
@@ -50,7 +50,7 @@ class petrol{
             box2d.update();
             ofSetWindowTitle(ofToString(ofGetFrameRate()));
             if(statusGlobal==RUN){
-                setSizeTon(ton_petroleo_ahorrado);
+                setSizeTon(litros_petroleo_ahorrado);
             }
         }
 
@@ -73,7 +73,7 @@ class petrol{
         ofRect(0,0,petroleo_w,petroleo_h);
         ofSetColor(255);
         particles.draw();
-        franchise.drawString("PETROLEO AHORRADO",20,60);
+        franchise.drawString("DIÉSEL AHORRADO",20,60);
 
     }
     
@@ -97,7 +97,7 @@ class petrol{
     void setSizeTon(float tons){
         if(currentPetrol<tons){
             int newBalls=ofMap(tons,0,MAXSAVING,0,MAXBALLS);
-            ofClamp(newBalls,0,MAXBALLS);
+            newBalls=ofClamp(newBalls,0,MAXBALLS);
             if(newBalls>currentBalls){
                 addParticles(newBalls-currentBalls);
             }

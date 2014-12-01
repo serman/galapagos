@@ -1,13 +1,16 @@
 #include "ofApp.h"
 
 ofTrueTypeFont franchise;
+ofTrueTypeFont franchiseBig;
 int statusGlobal;
+long timeLastChange;
 
 //MAGNITUDES variables globales
-float ton_petroleo_ahorrado, ton_petroleo_consumido, ton_co2_ahorrado, ton_co2_consumido;
+float litros_petroleo_ahorrado, litros_petroleo_consumido, ton_co2_ahorrado, ton_co2_consumido;
 int nsolares;
 int nnormales;
 float ratio;
+
 
 //--------------------------------------------------------------
 void ofApp::setup(){
@@ -16,8 +19,9 @@ void ofApp::setup(){
    // mmenu.setup();
     mpetrol.setup();
     
-    franchise.loadFont("Franchise-Bold-hinted.ttf",25);
-    franchiseBig.loadFont("Franchise-Bold-hinted.ttf",65);
+    franchise.loadFont("GOTHMBCD.TTF",20,true,true);
+    franchise.setEncoding(OF_ENCODING_UTF8);
+    franchiseBig.loadFont("GOTHMBCD.TTF",40,true,true);
     statusGlobal=RUN;
     
     isla.setup();
@@ -35,29 +39,27 @@ void ofApp::setup(){
     cam.setAutoDistance(true);
     myOSCrcv=new cheapCommRcv();
     myOSCrcv->setup();
-    px=0;
-    py=-180;
-    pz=0;
-    zoom=1.0;
+
     
     gui=new ofxUICanvas(700,0,200,350);
-    gui->addSlider("x", -200, 200, &px);
-    gui->addSlider("y", -200, 200, &py);
-    gui->addSlider("z", -200, 200, &pz);
-    gui->addSlider("zoom", 0.1, 1, &zoom);
+    gui->addSlider("x", -200, 200, &(mislapuzle.px));
+    gui->addSlider("y", -200, 200, &(mislapuzle.py));
+    gui->addSlider("z", -200, 200, &(mislapuzle.pz));
+    gui->addSlider("zoom", 0.1, 1, &(mislapuzle.zoom));
 
     gui->addSlider("tortugaX", -200, 200, &(mislapuzle.tortugaX));
     gui->addSlider("tortugay", -200, 200, &(mislapuzle.tortugaY));
     gui->addSlider("tortugaz", -200, 200, &(mislapuzle.tortugaZ));
 
 //    gui->addSlider("toneladasPetroleo", 0, 30, &(ton_petroleo_ahorrado) );
+    gui->addIntSlider("statusGlobal", 0, 2, &(statusGlobal));
     gui->addIntSlider("barcos solares", 0, 300, &(nsolares) );
     gui->addIntSlider("barcos normales", 0, 300, &(nnormales) );
     
     ofAddListener(gui->newGUIEvent,this,&ofApp::gui2Event);
     gui->loadSettings("settings.xml");
     reset();
-
+    timeLastChange=0;
    // cam.enableMouseInput();
     
 //    ofAddListener( ofEvents().update , this, &ofEasyCam::update);
@@ -68,8 +70,7 @@ void ofApp::gui2Event(ofxUIEventArgs &e)
 	string name = e.widget->getName();
 	int kind = e.widget->getKind();
     updateResult(nsolares,nnormales);
-    if(name == "Adaptative")
-    {
+    if(name == "Adaptative") {
         
     }
 }
@@ -91,15 +92,15 @@ void ofApp::updateResult(int solar, int normal){
     nsolares=solar;
     nnormales=normal;
     
-    float toneladas_Petroleo_N_trayectos= 0.1; //TODO ESTO FALTA
-    float toneladas_CO2_consumido_N_trayectos= 100 * (8.85 / (50*365));
-    ton_petroleo_ahorrado=nsolares*toneladas_Petroleo_N_trayectos;
-    if(normal>0)
-        ratio=solar/normal;
+    float litros_Petroleo_N_trayectos=  100* (22000/(10*365)) ;  //DIESEL
+    float toneladas_CO2_consumido_N_trayectos= 100 * (8.85 / (10*365));  //CO2 EMITIDO por cada barco del juego que representa N trayectos
+    litros_petroleo_ahorrado=nsolares*litros_Petroleo_N_trayectos;
+    if(normal>0 || solar>0)
+        ratio=(float)solar/(float)(solar+normal);
     else ratio=0;
     ton_co2_consumido=normal*toneladas_CO2_consumido_N_trayectos;
 
-    cout << "update updateResult ofApp" << endl ;
+  //  cout << "update updateResult ofApp" << endl ;
 }
 
 
@@ -108,8 +109,13 @@ void ofApp::updateResult(int solar, int normal){
 //--------------------------------------------------------------
 void ofApp::draw(){
     mapping->bind();
-    
+
+
     ofBackground (0,0,0) ;
+        ofNoFill();
+    
+        ofRect(0,0,1024,768);
+    ofFill();
 //ISLA CO2
     ofPushMatrix();
         ofPushStyle();
@@ -137,13 +143,26 @@ void ofApp::draw(){
     //marcador
     ofPushMatrix();
     ofPushStyle();
-        ofTranslate(islapuzle_w+petroleo_w, 500);
-        franchise.drawString(ofToString((nsolares*100.0)/(nnormales+nsolares) )+"% de viajes solares",0,0);
-        franchise.drawString("X Co2 Ahorrado",0,30);
-        franchise.drawString("X Co2 Emitido",0,60);
-        franchise.drawString("1 Barcos en el juego \n = X barcos Reales",0,90);
-        franchise.drawString("Pasajeros Barca solar ",0,160);
-        franchise.drawString("Pasajeros Barca gasolina ",0,190);
+        ofTranslate(islapuzle_w+petroleo_w+20, 500);
+    ofSetColor(121,189,154);
+    ofRect(0, 0, textos_w, textos_h);
+    ofSetColor(0);
+    
+    //En el juego
+ //       franchise.drawString(ofToString((nsolares*100.0)/(nnormales+nsolares) )+"% de viajes solares",0,0);
+ //       franchise.drawString("1 Trayectos en el juego \n = X Trayectos Reales",0,90);
+
+    // en la pantalla alargada
+        franchise.drawString("XXX Ton Co2 Ahorrado",0,30);
+        franchise.drawString("X Ton Co2 Emitido",0,60);
+
+        franchise.drawString("XXXX Litros de Diesel ahorrado",0,90);
+        franchise.drawString("XXXX Litros de Diesel consumidos",0,120);
+    
+    
+    //ESte dato moverlo a la pantalla de juego, cuando termina.
+  //      franchise.drawString("Pasajeros Barca solar ",0,160);
+  //      franchise.drawString("Pasajeros Barca gasolina ",0,190);
     ofPopStyle();
     ofPopMatrix();
 
@@ -157,23 +176,15 @@ void ofApp::draw(){
         ofSetColor(0,191,255);
         ofRect(0, 0, islapuzle_w, islapuzle_h);
         ofPushMatrix();
-            ofTranslate(160, 120);
-            ofSetColor(0,127,127);
-            ofRotateX(px);
-            ofRotateY(py);
-            ofRotateZ(pz);
-            ofScale(zoom, zoom);
+ 
             //cam.roll(  30*sin( ofGetElapsedTimeMillis()/ (400*PI) ) );
-           // mislapuzle.draw();
+            mislapuzle.draw();
            // cam.roll(  -30*sin( ofGetElapsedTimeMillis()/ (400*PI) ) );
-            ofSetColor(255);
+
     
         ofPopMatrix();
         
-        franchise.drawString("CLIMATIC",20,50);
-        franchise.drawString("CHANGE?",20,90);
-        glDisable(GL_DEPTH_TEST);
-        mislapuzle.bounce.draw(0,0);
+
     ofPopStyle();
     ofPopMatrix();
     mapping->unbind();
@@ -237,12 +248,16 @@ void ofApp::keyPressed(int key){
     }
     if(key=='1'){
         statusGlobal=PRE;
+        timeLastChange=ofGetElapsedTimeMillis();
     }
     if(key=='2'){
         statusGlobal=RUN;
+                timeLastChange=ofGetElapsedTimeMillis();
     }
     if(key=='3'){
         statusGlobal=POST;
+                timeLastChange=ofGetElapsedTimeMillis();
+        cout << timeLastChange <<endl;
     }
     mislapuzle.keyPressed(key);
 }

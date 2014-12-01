@@ -21,12 +21,15 @@ class islapuzle{
 public:
     int w_width=islapuzle_w;
     int h_height=islapuzle_h;
+    float px, py, pz,zoom;
     //--------------------------------------------------------------
     void setup(){
         light.setPosition(100,500, 100);
         //    light.setDiffuseColor(ofColor::blue);
         light.setAmbientColor(ofColor::green);
 //        light.setSpecularColor(ofColor::green);
+        rip.allocate(islapuzle_w,islapuzle_h);
+        bounce.allocate(islapuzle_w,islapuzle_h);
         ofImage background;
         background.loadImage("fondo.png");
         
@@ -42,14 +45,15 @@ public:
         squirrelModel.setScale(0.5, 0.5, 0.5);
         //squirrelModel.setPosition(w_width/2, h_height/2, 0);
         
-        franchise.loadFont("Franchise-Bold-hinted.ttf",40,true,true);
-        franchise.setEncoding(OF_ENCODING_UTF8);
-        fboIsla.allocate(w_width, h_height);
+        fboIsla.allocate(islapuzle_w, islapuzle_h);
         
-        makeTissue(TOTALCELLS, w_width*0.8, h_height*0.8, 10);
+        makeTissue(TOTALCELLS, islapuzle_w*0.8, islapuzle_h*0.8, 10);
         numCellsActual=50;
-        rip.allocate(w_width,h_height);
-        bounce.allocate(w_width,h_height);
+        
+        px=0;
+        py=-180;
+        pz=0;
+        zoom=1.0;
 
     }
     
@@ -98,13 +102,14 @@ public:
     }
     
     //--------------------------------------------------------------
-    void update(){        
+    void update(){
+        
         rip.begin();
         ofFill();
         ofSetColor(ofNoise( ofGetFrameNum() ) * 255 * 5, 255);
         //generamos nueva onda
-        if(ofGetFrameNum()%200==0)
-            ofEllipse(ofRandom(0,w_width),ofRandom(0,h_height), 20,20);
+        if(ofGetFrameNum()%100==0)
+            ofEllipse(ofRandom(0,islapuzle_w),ofRandom(0,islapuzle_h), 20,20);
         rip.end();
         rip.update();
         updateResult();
@@ -122,11 +127,8 @@ public:
     }
     
     void updateResult(){
-//        float ratio=solar/normal;
-//        cout << "update updateResult isla Puzle" << endl ;
         numCellsDestino=ofMap(ratio,0,1,0,TOTALCELLS);
-        ofClamp(numCellsDestino,0,TOTALCELLS);
-        cout << "cells destino: " << numCellsDestino << endl ;
+        numCellsDestino=ofClamp(numCellsDestino,0,TOTALCELLS);
     }
     void start(){
         numCellsDestino=TOTALCELLS/2;
@@ -160,9 +162,14 @@ public:
       //  fboIsla.begin();
        
  //       ofDrawBitmapString("ofxBounce", 640+15,15);
-      //  bounce.draw(0,0);
-
+        
+        
         ofPushMatrix();
+        ofEnableAlphaBlending();
+        ofSetColor(255,255);
+        bounce.draw(0,0);
+        ofDisableAlphaBlending();
+        
         light.enable();
         ofEnableLighting();       
         /* for (int i = 0; i < cellCentroids.size(); i++){
@@ -170,6 +177,14 @@ public:
          ofSphere(cellCentroids[i], cellRadius[i]*0.15);
          }*/
               light.setAmbientColor(ofColor::green);
+        ofTranslate(160, 120);
+        ofSetColor(0,127,127);
+        ofRotateX(px);
+        ofRotateY(py);
+        ofRotateZ(pz);
+        ofScale(zoom, zoom);
+        
+        ofRotateX(  3*sin( ofGetElapsedTimeMillis()/ (400*PI) ) );
         ofEnableDepthTest();
         for(int i = 0; i < numCellsActual; i++){
             ofSetColor(100,240);
@@ -205,6 +220,11 @@ public:
         light.disable();
 
         ofPopMatrix();
+  
+        franchise.drawString("CAMBIO CLIMÁTICO",20,20);
+        glDisable(GL_DEPTH_TEST);
+
+        ofSetColor(255);
 
         //fboIsla.end();
         //fboIsla.draw(0,0,w_width,h_height);
@@ -229,6 +249,7 @@ public:
     vector<ofPoint> cellCentroids;
         ofxBounce   bounce;
         float tortugaX,tortugaY,tortugaZ;
+    
 private:
     
 
@@ -246,7 +267,7 @@ private:
 
 
     ofx3DModelLoader squirrelModel;
-    ofTrueTypeFont franchise;
+   // ofTrueTypeFont franchise;
     ofFbo fboIsla;
 };
 
