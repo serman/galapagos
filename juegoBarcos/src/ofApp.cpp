@@ -19,6 +19,7 @@ void ofApp::setup(){
     myComm=cheapComm::getInstance();
     myComm->setup();
     gameStatus=JUGANDO;
+    loadSettings();
 }
 
 //--------------------------------------------------------------
@@ -94,6 +95,9 @@ void ofApp::keyPressed(int key){
         if(gui->isEnabled()) gui->disable();
         else gui->enable();
     }
+    if(key== 's'){
+        saveSettings();
+    }
 }
 
 //--------------------------------------------------------------
@@ -108,7 +112,7 @@ void ofApp::mouseMoved(int x, int y ){
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-
+    mtracking.boxInputMatrix.adjustHandle(x, y);
 }
 
 //--------------------------------------------------------------
@@ -134,4 +138,49 @@ void ofApp::gotMessage(ofMessage msg){
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo){ 
 
+}
+
+void ofApp::loadSettings() {
+    
+    
+    if( XML.loadFile("mySettings.xml") ){
+        //message = "mySettings.xml loaded!";
+        
+        mtracking.boxInputMatrix.setTopLeftX(XML.getValue("CAPTUREREGION:r11:X", 0));
+        mtracking.boxInputMatrix.setTopLeftY(XML.getValue("CAPTUREREGION:r11:Y", 0));
+        
+        mtracking.boxInputMatrix.setBottomLeftX(XML.getValue("CAPTUREREGION:r12:X", 0));
+        mtracking.boxInputMatrix.setBottomLeftY(XML.getValue("CAPTUREREGION:r12:Y", imgWidth));
+        
+        mtracking.boxInputMatrix.setTopRightX(XML.getValue("CAPTUREREGION:r21:X", 0));
+        mtracking.boxInputMatrix.setTopRightY(XML.getValue("CAPTUREREGION:r21:Y", imgHeight));
+        
+        mtracking.boxInputMatrix.setBottomRightX(XML.getValue("CAPTUREREGION:r22:X", imgWidth));
+        mtracking.boxInputMatrix.setBottomRightY(XML.getValue("CAPTUREREGION:r22:Y", imgHeight));        
+        
+    }else{
+        
+        //message = "unable to load mySettings.xml check data/ folder";
+    }
+    
+    
+}
+
+void ofApp::saveSettings() {
+	
+	XML.clear();
+	XML.setValue("CAPTUREREGION:r11:X", mtracking.boxInputMatrix.getTopLeftX());
+	XML.setValue("CAPTUREREGION:r11:Y", mtracking.boxInputMatrix.getTopLeftY());
+	
+	XML.setValue("CAPTUREREGION:r12:X", mtracking.boxInputMatrix.getBottomLeftX());
+	XML.setValue("CAPTUREREGION:r12:Y", mtracking.boxInputMatrix.getBottomLeftY());
+	
+	XML.setValue("CAPTUREREGION:r21:X", mtracking.boxInputMatrix.getTopRightX());
+	XML.setValue("CAPTUREREGION:r21:Y", mtracking.boxInputMatrix.getTopRightY());
+	
+	XML.setValue("CAPTUREREGION:r22:X", mtracking.boxInputMatrix.getBottomRightX());
+	XML.setValue("CAPTUREREGION:r22:Y", mtracking.boxInputMatrix.getBottomRightY());
+	   
+	XML.saveFile("mySettings.xml");
+	
 }

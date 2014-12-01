@@ -12,12 +12,13 @@
 #include "ofxOpenCv.h"
 #include "ofxUI.h"
 #include "ofxPS3EyeGrabber.h"
+#include "boxAlign.h"
 #define EYETOY 1
 static bool USE_LIVE_VIDEO =true;
 #define filas 25
 #define columnas 25
-static int camWidth = 640;
-static int camHeight = 480;
+static int camWidth = 320;
+static int camHeight = 240;
 static int tileWidth = (int)(camWidth / columnas);
 static int tileHeight = (int)(camHeight / filas);
 static float ratiow=1024.0/camWidth;
@@ -69,6 +70,7 @@ public:
       //  grayImgDiff.allocate(imgWidth,imgHeight);
     //    grayImgW.allocate(imgWidth,imgHeight);
         grayImgT.allocate(imgWidth,imgHeight);
+        grayImgW.allocate(imgWidth,imgHeight);
         background.setLearningTime(900);
 
         thresholded.allocate(imgWidth,imgHeight,OF_IMAGE_GRAYSCALE);
@@ -76,6 +78,7 @@ public:
         //contourFinder.setMaxAreaRadius(maxRadius);
                     thresholded.setImageType(OF_IMAGE_GRAYSCALE);
         bdrawDebug=false;
+        	boxInputMatrix.setup( 0, 200, imgWidth, imgHeight);
 
     }
     
@@ -92,10 +95,19 @@ public:
         if (bNewFrame){
             if(USE_LIVE_VIDEO){
                 background.setThresholdValue(threshold);
-                sourceImgImage.setFromPixels(camera.getPixelsRef());
+                #ifdef EYETOY
+                    sourceImgImage.setFromPixels(camera.getPixelsRef());
+                                background.update(sourceImgImage, thresholded);
+                                thresholded.update();
+                #else
+                    sourceImg.setFromPixels(camera.getPixels(), camWidth,camHeight);
+                    background.update(sourceImg, thresholded);
+                    thresholded.update();
+                #endif
+                
                 //sourceImg.setFromPixels(camera.getPixels(), camWidth,camHeight);
-                background.update(sourceImgImage, thresholded);
-                thresholded.update();
+
+
             }
             else{
                 sourceImg.setFromPixels(player.getPixels(), camWidth,camHeight);
@@ -103,13 +115,14 @@ public:
                 thresholded.update();
             }
             
-            sourceImg.mirror(false, true);
+            //sourceImg.mirror(false, true);
         }
         #ifdef EYETOY
             ofxCv::convertColor(sourceImgImage.getPixelsRef(), grayImg.getPixelsRef(), CV_RGBA2GRAY);
             grayImg.flagImageChanged();
         #else
             grayImg = sourceImg;
+                    grayImg.flagImageChanged();
         #endif
         if(!enableBGS){
             grayImgT=grayImg;
@@ -127,11 +140,19 @@ public:
         }
         else{
             //grayImgT=thresholded;
+            ofPoint dstPts[4] = {
+                ofPoint(0, imgHeight, 0),
+                ofPoint(imgWidth, imgHeight, 0),
+                ofPoint(imgWidth, 0, 0),
+                ofPoint(0, 0, 0)
+            };
             grayImgT.setFromPixels(thresholded.getPixels(),thresholded.getWidth(), thresholded.getHeight());
-            grayImgT.mirror(false, true);
-             grayImgT.erode_3x3();
-            //grayImgT.dilate_3x3();
-             contourFinder.findContours(grayImgT, minRadius, maxRadius, 10, false, true);
+            grayImgW.warpIntoMe(grayImgT, boxInputMatrix.fHandles, dstPts );
+            
+            //grayImgT.mirror(false, false);
+             grayImgW.erode_3x3();
+            grayImgW.dilate_3x3();
+             contourFinder.findContours(grayImgW, minRadius, maxRadius, 10, false, true);
         }            
     }
     
@@ -142,24 +163,31 @@ public:
         if(bdrawDebug){
             ofPushMatrix();
                 ofSetColor(255);
-                ofTranslate(50,0);
+//                ofTranslate(50,0);
             if(!enableBGS){
-               // contourFinder.draw();
-
                 drawMatrix();
             }
             ofSetColor(255);
-            grayImg.draw(0 ,200,320,240);
+            grayImg.draw(0 ,200,320,240); // entrada
             
             if(!enableBGS){
-                grayImgT.draw(0,450,320,240);
+                grayImgT.draw(0,450,320,240); //
             }else{
-                contourFinder.draw();
+
                 grayImgT.draw(0,450);
+                grayImgW.draw(325,450);
+                boxInputMatrix.draw(0 ,200);
                 
             }
         }
         ofPopMatrix();
+        if(enableBGS){
+            ofPushMatrix();
+            ofScale(1024/camWidth, 768/camHeight);
+            contourFinder.draw();
+            ofPopMatrix();
+            
+        }
        // camera.draw(0,0);
     }
     
@@ -266,6 +294,8 @@ public:
         }
     }
     
+
+    
     void resetMatrix() {     
         //matriz de luz reset
         for (int i = 0; i < columnas; i++) {
@@ -276,6 +306,7 @@ public:
     }
         ofxCv::RunningBackground background;
     bool    bdrawDebug;
+    	CBoxAligner         boxInputMatrix;
 private:
     ofVideoGrabber camera;
     ofVideoPlayer player;

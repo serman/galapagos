@@ -34,7 +34,8 @@ class ofApp : public ofBaseApp{
         void drawIntroMsg();
         void restart();
         ofImage creditos;
-    
-    
+    void loadSettings();
+    		void saveSettings(); 
+    		ofxXmlSettings XML;
     
 };
