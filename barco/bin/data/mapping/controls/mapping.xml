@@ -1,7 +1,7 @@
 <Widget>
     <Kind>20</Kind>
     <Name>MAPPING:FULLSCREEN</Name>
-    <Value>0</Value>
+    <Value>1</Value>
 </Widget>
 <Widget>
     <Kind>20</Kind>
@@ -21,12 +21,12 @@
 <Widget>
     <Kind>20</Kind>
     <Name>MAPPING_MODE:OUTPUT</Name>
-    <Value>1</Value>
+    <Value>0</Value>
 </Widget>
 <Widget>
     <Kind>20</Kind>
     <Name>MAPPING_MODE:INPUT</Name>
-    <Value>0</Value>
+    <Value>1</Value>
 </Widget>
 <Widget>
     <Kind>20</Kind>
