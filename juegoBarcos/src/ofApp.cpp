@@ -7,7 +7,7 @@ void ofApp::setup(){
     creditos.loadImage("creditos.png");
     mbarcos.setup();
     mtracking.setup();
-    gui=new ofxUICanvas(1150,0,200,150);
+    gui=new ofxUICanvas(0,0,200,150);
     gui->addSlider("threshold", 1, 255, &(mtracking.threshold));
         gui->addSlider("min Rad", 1, 50, &(mtracking.minRadius));
         gui->addSlider("max Rad", 10, 200, &(mtracking.maxRadius));
@@ -89,6 +89,10 @@ void ofApp::keyPressed(int key){
 	}
     if(key== 'd'){
         mtracking.bdrawDebug=!mtracking.bdrawDebug;
+    }
+    if(key== 'g'){
+        if(gui->isEnabled()) gui->disable();
+        else gui->enable();
     }
 }
 

@@ -11,7 +11,8 @@
 #include "ofxCV.h"
 #include "ofxOpenCv.h"
 #include "ofxUI.h"
-
+#include "ofxPS3EyeGrabber.h"
+#define EYETOY 1
 static bool USE_LIVE_VIDEO =true;
 #define filas 25
 #define columnas 25
@@ -41,9 +42,15 @@ public:
     
     void openCameras(){
         if( USE_LIVE_VIDEO){
+            
+#ifdef EYETOY
+            camera.setGrabber(ofPtr<ofxPS3EyeGrabber>(new ofxPS3EyeGrabber()));
+                camera.setPixelFormat(OF_PIXELS_MONO);
+#else   
             camera.listDevices();
             camera.setDeviceID(0);
             camera.setDesiredFrameRate(30);
+#endif
             camera.initGrabber(camWidth,camHeight);
         }else{
             player.loadMovie("muncyt-test-intermedio.mov");
@@ -69,6 +76,7 @@ public:
         //contourFinder.setMaxAreaRadius(maxRadius);
                     thresholded.setImageType(OF_IMAGE_GRAYSCALE);
         bdrawDebug=false;
+
     }
     
     void update(){
@@ -84,13 +92,10 @@ public:
         if (bNewFrame){
             if(USE_LIVE_VIDEO){
                 background.setThresholdValue(threshold);
-                sourceImg.setFromPixels(camera.getPixels(), camWidth,camHeight);
-                background.update(camera, thresholded);
+                sourceImgImage.setFromPixels(camera.getPixelsRef());
+                //sourceImg.setFromPixels(camera.getPixels(), camWidth,camHeight);
+                background.update(sourceImgImage, thresholded);
                 thresholded.update();
-               // thresholded.dilate();
-               // thresholded.erode();
-               // contourFinder.setThreshold(threshold);
-               // contourFinder.findContours(camera);
             }
             else{
                 sourceImg.setFromPixels(player.getPixels(), camWidth,camHeight);
@@ -100,9 +105,12 @@ public:
             
             sourceImg.mirror(false, true);
         }
-        
-        grayImg = sourceImg;
-       
+        #ifdef EYETOY
+            ofxCv::convertColor(sourceImgImage.getPixelsRef(), grayImg.getPixelsRef(), CV_RGBA2GRAY);
+            grayImg.flagImageChanged();
+        #else
+            grayImg = sourceImg;
+        #endif
         if(!enableBGS){
             grayImgT=grayImg;
             grayImgT.threshold(threshold);
@@ -124,10 +132,7 @@ public:
              grayImgT.erode_3x3();
             //grayImgT.dilate_3x3();
              contourFinder.findContours(grayImgT, minRadius, maxRadius, 10, false, true);
-           
-            
-        }
-            
+        }            
     }
     
     void draw() {
@@ -264,6 +269,7 @@ public:
 private:
     ofVideoGrabber camera;
     ofVideoPlayer player;
+    ofImage sourceImgImage;
     ofxCvColorImage		sourceImg;
 	
 	ofxCvGrayscaleImage 	grayImg;
@@ -272,7 +278,7 @@ private:
 	
 	ofxCvGrayscaleImage 	grayImgT;
 	ofxCvGrayscaleImage 	grayImgW;
-    bool enableBGS=false;
+    bool enableBGS=true;
 
     ofImage thresholded;
     ofxCvContourFinder contourFinder;
