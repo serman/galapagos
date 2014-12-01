@@ -6,6 +6,7 @@
 //
 //
 #include "ofMain.h"
+#include <math.h>
 #ifndef juegoBarcos_barcos_h
 #define juegoBarcos_barcos_h
 const int game_width=1024;
@@ -42,22 +43,21 @@ public:
         if(ofRandom(0,1)>0.5){
             xInit=ofRandom(0,20);
             xEnd=ofRandom(game_width,game_width-20);
-            yInit=ofRandom(0,game_height);
-            yEnd=ofRandom(yInit-100,yInit+100);
+            yInit=ofRandom(30,game_height-30);
+            yEnd=ofRandom(MAX(yInit-100,0),MIN(yInit+100,768));
             x1=xInit; y1=yInit;
-            c_normal=paletaFria.getColor((int)ofRandom(0,paletaFria.width), (int)ofRandom(0,paletaFria.height));
-            c_solar=paletaCaliente.getColor((int)ofRandom(0,paletaCaliente.width), (int)ofRandom(0,paletaCaliente.height));
+            c_solar=paletaFria.getColor((int)ofRandom(0,paletaFria.width), (int)ofRandom(0,paletaFria.height));
+            c_normal=paletaCaliente.getColor((int)ofRandom(0,paletaCaliente.width), (int)ofRandom(0,paletaCaliente.height));
             direccion=false;
         }
         else{ //derecha a izquierda
-            xEnd=ofRandom(0,20);
+            xEnd=ofRandom(4,20);
             xInit=ofRandom(game_width,game_width-20);
-            yInit=ofRandom(0,game_height);
-            yEnd=ofRandom(yInit-100,yInit+100);
+            yInit=ofRandom(30,game_height-30);
+            yEnd=ofRandom(MAX(yInit-100,0),MIN(yInit+100,768));
             x1=xInit; y1=yInit;
-            c_normal=paletaFria.getColor((int)ofRandom(0,paletaFria.width), (int)ofRandom(0,paletaFria.height));
-            c_solar=paletaCaliente.getColor((int)ofRandom(0,paletaCaliente.width), (int)ofRandom(0,paletaCaliente.height));
-
+            c_solar=paletaFria.getColor((int)ofRandom(0,paletaFria.width), (int)ofRandom(0,paletaFria.height));
+            c_normal=paletaCaliente.getColor((int)ofRandom(0,paletaCaliente.width), (int)ofRandom(0,paletaCaliente.height));
             direccion=true;
         }
         x=x1;
@@ -87,17 +87,19 @@ public:
           ofLine(xInit, yInit+barco_h/2, x1-barco_w/2, y1+barco_h/2);
         
         if(done==false){
-            if(direccion==false){
-                if(x1<(xEnd-speed)) x1+=speed;
+            if(direccion==false){ // izquierda a derecha
+                if(x1<=(xEnd-speed)) x1+=speed;
                 else done=true;
-                if(y1!=xEnd) {
+                
+                if(y1!=yEnd) { //antes ponia xend aqui
                     y1+=(yEnd-yInit)/ ((xEnd-xInit) /speed);
                 }
             }
-            else{
-                if(xEnd<(x1-speed)) x1-=speed;
+            else{ //derecha a izquierda
+                if(x1>(xEnd-speed)) x1-=speed;
                 else done=true;
-                if(y1!=xEnd) {
+                
+                if(y1!=yEnd) {//antes ponia xend aqui
                     y1+=(yEnd-yInit)/ ((xEnd-xInit) /speed);
                 }     
             }
@@ -127,13 +129,14 @@ public:
         //crear nuevo barco
         if (ofGetElapsedTimeMillis()>timeNextBoat) {
             addNew();
-            timeNextBoat=ofGetElapsedTimeMillis()+1000;
+            timeNextBoat=ofGetElapsedTimeMillis()+600;
         }
         for (int i=0; i<barcos.size (); i++) {
             barcos[i].updatePosition();
         }
+        
         for (int i=0; i<barcos.size(); i++) {
-            if(barcos[i].x>game_width){
+            if(barcos[i].done==true){
                 if(barcos[i].type==0)  nbarcoNormal++;
                 else nbarcoSolar++;
                     barcos.erase(barcos.begin()+i) ;
@@ -158,7 +161,7 @@ public:
     void draw() {
         for (int i=0; i<barcos.size (); i++) {
             if (barcos[i].type==0) {
-                ofSetColor(255, 255, 0, 255);
+                ofSetColor(255, 255, 255, 255);
                        // cout << barcos[i].y << endl;
                 if(barcos[i].direccion){ //derecha a izquierda
                     barcoNormalInv.draw (barcos[i].x1, barcos[i].y1, 60, 60);

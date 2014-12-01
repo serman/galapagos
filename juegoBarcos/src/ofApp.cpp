@@ -13,7 +13,8 @@ void ofApp::setup(){
         gui->addSlider("max Rad", 10, 200, &(mtracking.maxRadius));
     ofSetVerticalSync(true);
    // openCameras();
-    helvetica1.loadFont("Helvetica-Bold.otf", 11);
+    helvetica1.loadFont("Helvetica-Bold.otf", 11,true,true);
+    letraGrande.loadFont("GOTHMBCD.TTF",30,true,true);
     
     cheapComm *myComm;
     myComm=cheapComm::getInstance();
@@ -47,12 +48,19 @@ void ofApp::update(){
         if(ofGetElapsedTimeMillis()>timeChangeStatus){
             gameStatus=SINJUGADOR;
             cheapComm::getInstance()->sendStartWait();
+            timeChangeStatus=ofGetElapsedTimeMillis()+3000;
         }
-    }else if(gameStatus==SINJUGADOR){
+    }else if(gameStatus==SINJUGADOR && ofGetElapsedTimeMillis()>timeChangeStatus ){
         //TODO
+        helvetica1.drawString("Apunta a los barcos",0,350);
+        mtracking.update();
+        if(mtracking.checkPointers()==true){
+            restart();
+            cheapComm::getInstance()->sendStart();
+        }
 
-        restart();
-        cheapComm::getInstance()->sendStart();
+
+        
     }
 }
 void ofApp::restart(){
@@ -80,8 +88,15 @@ void ofApp::draw(){
 }
 
 void ofApp::drawMarcador(){
-    helvetica1.drawString("barcos solares:" + ofToString(mbarcos.nbarcoSolar), 300, 40);
-    helvetica1.drawString("barcos convencionales" + ofToString(mbarcos.nbarcoNormal), 500, 40);
+    ofSetColor(200);
+    helvetica1.drawString("Trayectos en barcazas solares", 150, 40);
+    letraGrande.drawString(ofToString(mbarcos.nbarcoSolar*ratioBarcosReales), 450, 45);
+    
+    helvetica1.drawString("Trayectos en barcazas convencionales", 650, 40);
+    letraGrande.drawString(ofToString(mbarcos.nbarcoNormal*ratioBarcosReales), 550, 45);
+
+    letraGrande.drawString("DIA " + ofToString(round(( mbarcos.nbarcoNormal + mbarcos.nbarcoSolar ) * DIAS_BARCO)) + " de 365", 50, 730);
+    helvetica1.drawString("1 trayecto del juego son " + ofToString(ratioBarcosReales)  + " trayectos reales", 600, 730);
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
@@ -98,6 +113,9 @@ void ofApp::keyPressed(int key){
     if(key== 's'){
         saveSettings();
         gui->saveSettings("gui_settings.xml");
+    }
+    if(key=='r'){
+        mbarcos.nbarcoSolar=TOTAL_BARCOS    ;
     }
 }
 

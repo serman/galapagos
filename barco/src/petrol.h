@@ -114,7 +114,7 @@ class petrol{
     }
     
     void start(){
-    
+        restart();
     }
     void end(){
         

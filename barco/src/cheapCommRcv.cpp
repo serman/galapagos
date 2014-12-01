@@ -44,6 +44,9 @@ void cheapCommRcv::update(){
         else if(m.getAddress()=="/start"){
             ((ofApp*)ofGetAppPtr())->start();
         }
+        else if(m.getAddress()=="/startWait"){
+            ((ofApp*)ofGetAppPtr())->toTransicion();
+        }
        
     }
 }

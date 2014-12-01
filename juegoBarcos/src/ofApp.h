@@ -4,8 +4,10 @@
 #include "barcos.h"
 #include "cameraTracking.h"
 #include "cheapComm.h"
-//#define TOTAL_BARCOS 182
-#define TOTAL_BARCOS 200
+#define TOTAL_BARCOS 182
+#define ratioBarcosReales 100
+#define DIAS_BARCO (365.0/TOTAL_BARCOS)
+//#define TOTAL_BARCOS 200
 class ofApp : public ofBaseApp{
     enum statuses{SINJUGADOR, JUGANDO,FIN};
 	public:
@@ -26,6 +28,7 @@ class ofApp : public ofBaseApp{
         tracking mtracking;
     
         ofTrueTypeFont helvetica1;
+        ofTrueTypeFont letraGrande;
         ofImage mapa;
         ofxUICanvas *gui;
         int gameStatus;

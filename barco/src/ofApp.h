@@ -44,7 +44,8 @@ class ofApp : public ofBaseApp{
         void end();
         void gui2Event(ofxUIEventArgs &e);
         petrol mpetrol;
-
+        void toTransicion();
+    
         /**** magnitudes ***/
     
     

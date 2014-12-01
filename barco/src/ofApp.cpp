@@ -195,7 +195,6 @@ void ofApp::draw(){
     ofPopMatrix();
     mapping->unbind();
     
-    
     //-------- mapping of the towers/shapes
     ofSetColor(255, 255, 255, 255);
     ofFill();
@@ -211,15 +210,25 @@ void ofApp::reset(){
 }
 
 void ofApp::start(){
+    statusGlobal=RUN; //-> MODO JUEGO
+    timeLastChange=ofGetElapsedTimeMillis();
     mpetrol.start();
     isla.start();
     mislapuzle.start();
 }
 
-void ofApp::end(){
+void ofApp::end(){ //-> MODO TRANSICION
+    statusGlobal=POST;
+    timeLastChange=ofGetElapsedTimeMillis();
     mpetrol.end();
     isla.end();
     mislapuzle.end();
+}
+
+void ofApp::toTransicion(){ //-> MODO TRANSICION
+    timeLastChange=ofGetElapsedTimeMillis();
+    statusGlobal=PRE;
+
 }
 
 //--------------------------------------------------------------
