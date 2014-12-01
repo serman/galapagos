@@ -2,10 +2,10 @@
     <shape id="0">
         <setting key="type">quad</setting>
         <outputVertices>
-            <vertex x="69" y="117"></vertex>
-            <vertex x="396" y="120"></vertex>
-            <vertex x="392" y="448"></vertex>
-            <vertex x="66" y="440"></vertex>
+            <vertex x="26" y="114"></vertex>
+            <vertex x="424" y="119"></vertex>
+            <vertex x="425" y="454"></vertex>
+            <vertex x="23" y="437"></vertex>
         </outputVertices>
         <inputPolygon>
             <vertex x="0" y="0"></vertex>
@@ -32,10 +32,10 @@
     <shape id="2">
         <setting key="type">quad</setting>
         <outputVertices>
-            <vertex x="514" y="446"></vertex>
-            <vertex x="911" y="450"></vertex>
-            <vertex x="901" y="767"></vertex>
-            <vertex x="512" y="762"></vertex>
+            <vertex x="632" y="416"></vertex>
+            <vertex x="982" y="404"></vertex>
+            <vertex x="974" y="735"></vertex>
+            <vertex x="633" y="733"></vertex>
         </outputVertices>
         <inputPolygon>
             <vertex x="332" y="484"></vertex>
@@ -49,8 +49,8 @@
         <outputVertices>
             <vertex x="70" y="461"></vertex>
             <vertex x="420" y="462"></vertex>
-            <vertex x="421" y="750"></vertex>
-            <vertex x="73" y="751"></vertex>
+            <vertex x="415" y="760"></vertex>
+            <vertex x="67" y="755"></vertex>
         </outputVertices>
         <inputPolygon>
             <vertex x="1" y="480"></vertex>
@@ -65,7 +65,7 @@
             <vertex x="354" y="7"></vertex>
             <vertex x="672" y="13"></vertex>
             <vertex x="671" y="108"></vertex>
-            <vertex x="354" y="109"></vertex>
+            <vertex x="357" y="113"></vertex>
         </outputVertices>
         <inputPolygon>
             <vertex x="681" y="501"></vertex>
@@ -77,10 +77,10 @@
     <shape id="5">
         <setting key="type">quad</setting>
         <outputVertices>
-            <vertex x="71" y="8"></vertex>
+            <vertex x="39" y="8"></vertex>
             <vertex x="356" y="7"></vertex>
-            <vertex x="355" y="112"></vertex>
-            <vertex x="71" y="113"></vertex>
+            <vertex x="360" y="112"></vertex>
+            <vertex x="39" y="113"></vertex>
         </outputVertices>
         <inputPolygon>
             <vertex x="681" y="569"></vertex>

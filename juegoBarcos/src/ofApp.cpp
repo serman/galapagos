@@ -24,7 +24,7 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    ofSetWindowTitle("juego barco. fps:" + ofToString(ofGetFrameRate()));
+    //ofSetWindowTitle("juego barco. fps:" + ofToString(ofGetFrameRate()));
     if(gameStatus==JUGANDO){
         mbarcos.update();
        // mbarcos.checkColision((int)mtracking.loc.x,(int)mtracking.loc.y);
@@ -97,6 +97,7 @@ void ofApp::keyPressed(int key){
     }
     if(key== 's'){
         saveSettings();
+        gui->saveSettings("gui_settings.xml");
     }
 }
 
@@ -142,7 +143,7 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 
 void ofApp::loadSettings() {
     
-    
+    gui->loadSettings("gui_settings.xml");
     if( XML.loadFile("mySettings.xml") ){
         //message = "mySettings.xml loaded!";
         

@@ -23,6 +23,8 @@ static int tileWidth = (int)(camWidth / columnas);
 static int tileHeight = (int)(camHeight / filas);
 static float ratiow=1024.0/camWidth;
 static float ratioh=768.0/camHeight;
+static float screen_w = 1024.0;
+static float screen_h = 768.0;
 
 static int imgWidth = camWidth;
 static int imgHeight = camHeight;
@@ -161,8 +163,21 @@ public:
         ofNoFill();
         ofEllipse(loc.x, loc.y, 10, 10);
         if(bdrawDebug){
+            
+            
             ofPushMatrix();
-                ofSetColor(255);
+            ofSetColor(255);
+            //dibujo las esquinas
+            ofSetLineWidth(4);
+            ofRect(0,0,screen_w,screen_h);
+            
+            ofFill();
+                        ofSetLineWidth(0);
+            ofRect(-10,-10,20,20);
+            ofRect(screen_w-10,-10,20,20);
+            ofRect(screen_w-10,screen_h-10,20,20);
+            ofRect(0,screen_h-10,20,20);
+            
 //                ofTranslate(50,0);
             if(!enableBGS){
                 drawMatrix();
