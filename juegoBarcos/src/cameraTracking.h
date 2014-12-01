@@ -16,8 +16,8 @@
 static bool USE_LIVE_VIDEO =true;
 #define filas 25
 #define columnas 25
-static int camWidth = 320;
-static int camHeight = 240;
+static int camWidth = 640;
+static int camHeight = 480;
 static int tileWidth = (int)(camWidth / columnas);
 static int tileHeight = (int)(camHeight / filas);
 static float ratiow=1024.0/camWidth;
@@ -178,25 +178,35 @@ public:
     }
     
     void checkCollisions(vector<barco> &mbarcos){
-        int tileW=round(tileWidth*ratiow);
-        int tileH=round(tileHeight*ratioh);
-        for (int i = 0; i < columnas; i++) {
-			for (int j = 0; j < filas; j++) {
-                int amountActivity=matrix[i][j];
-				if (amountActivity > 1) {
-                        //buscar colisiones
-                    for(int z=0; z<mbarcos.size(); z++){
-                        if( mbarcos[z].intersects(ofRectangle(
-                                                              round(i * tileW), round( j* tileH) , (int)tileW, (int)tileH
-                                                              )
-                                                  ) ){
-                            mbarcos.at(z).type=1;
+        if(!enableBGS){
+            int tileW=round(tileWidth*ratiow);
+            int tileH=round(tileHeight*ratioh);
+            for (int i = 0; i < columnas; i++) {
+                for (int j = 0; j < filas; j++) {
+                    int amountActivity=matrix[i][j];
+                    if (amountActivity > 1) {
+                            //buscar colisiones
+                        for(int z=0; z<mbarcos.size(); z++){
+                            if( mbarcos[z].intersects(ofRectangle(
+                                                                  round(i * tileW), round( j* tileH) , (int)tileW, (int)tileH
+                                                                  )
+                                                      ) ){
+                                mbarcos.at(z).type=1;
+                            }
                         }
                     }
-				}
-			}
-		}
-        
+                }
+            }
+        }
+        else{
+            for(int i=0; i< contourFinder.nBlobs; i++){
+                for(int z=0; z<mbarcos.size(); z++){
+                    if( mbarcos[z].intersects(contourFinder.blobs[i].boundingRect)){
+                        mbarcos.at(z).type=1;
+                    }
+                }
+            }
+        }
     }
     
     void drawMatrix(){
