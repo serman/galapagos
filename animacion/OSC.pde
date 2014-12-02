@@ -11,13 +11,30 @@ void setupOSC() {
 //EM 
  oscP5.plug(this,"updateMarcador","/marcador"); 
  oscP5.plug(this,"start","/start");
+ 
+ oscP5.plug(this,"startWait","/startWait");
  oscP5.plug(this,"end","/end");
 }
 
 void updateMarcador(int nsolar, int nnormal){
-  print("update marcador ");
-  print(nsolar + " ::::: ");
-  println(nnormal);  
+//  print("update marcador ");
+//  print(nsolar + " ::::: ");
+//  println(nnormal);  
   barcosSolares=nsolar;
   barcosNormales=nnormal;
+}
+
+void start(){
+  barcosSolares=0;
+  barcosNormales=0;
+  status=2;
+}
+void end(){
+  status=3;
+}
+
+void startWait(){
+  status=1;
+  barcosSolares=0;
+  barcosNormales=0;
 }

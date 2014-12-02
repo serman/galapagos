@@ -2,7 +2,7 @@ import codeanticode.syphon.*;
 import gifAnimation.*;
 import de.looksgood.ani.*;
 import controlP5.*;
-
+PFont myFont;
 PGraphics canvas;
 SyphonServer server;
 ControlP5 cp5;
@@ -14,10 +14,13 @@ boolean pause = false;
 PImage arbol;
 int totalPajaros=9;
 int barcosSolares, barcosNormales=1;
+int status=3;
 public void setup() {
   size(480, 521,P3D);
   canvas = createGraphics(480, 521, P3D);
   frameRate(25);
+  myFont = loadFont("Gotham-Bold-30.vlw");
+  textFont(myFont, 30);
   //pajaro paj1=new pajaro();
   pajaros=new ArrayList<pajaro>();
   arbol=loadImage("arbol.png");
@@ -53,6 +56,7 @@ public void setup() {
      .setPosition(width-100,height-20)
      .setRange(1,200)
      ;
+  //cp5.hide();
 
 }
 
@@ -60,8 +64,14 @@ public void setup() {
 void updateViz(){
  // println(barcosSolares);
  // println(barcosNormales);
-  int nuevoNumeroPajaros=round( (pajaros.size()  )* ((float)barcosSolares/(float)(barcosNormales+barcosSolares)));
-  println(pajarosActivos + ":::: "+ nuevoNumeroPajaros);
+ int nuevoNumeroPajaros=4;
+ if((barcosSolares+barcosNormales) < 10){
+    nuevoNumeroPajaros=4;
+ }
+ else{
+  nuevoNumeroPajaros=round( (pajaros.size()  )* ((float)barcosSolares/(float)(barcosNormales+barcosSolares)));
+ }
+ // println(pajarosActivos + ":::: "+ nuevoNumeroPajaros);
   if (nuevoNumeroPajaros>pajarosActivos){
      for(int i=pajarosActivos; i<nuevoNumeroPajaros; i++){
       pajaros.get(i).startEvent();
@@ -79,14 +89,22 @@ void updateViz(){
 }
 void draw() {
  updateViz();
-   background(255);
+   background(198,229,217);
    image(arbol, 0, 0);
   //image(pajaro1, 10, height / 2 - pajaro1.height / 2);
 
   for (int i=0; i< pajaros.size (); i++) {
     pajaros.get(i).draw();
   }
+  if(status==1){
+    fill(255);
+    text("Los pinzones \nde Darwin",20,460);
+  }
   
+  if(status==3){
+    fill(255);
+    text("Las emisiones generadas por \ncombustibles fósiles \nprovocan la pérdida de \nbiodiversidad",20,400);
+  }
  // image(canvas, 0, 0);
   server.sendScreen();
 }
@@ -97,9 +115,8 @@ void mousePressed() {
 }
 
 void keyPressed() {
-  if (key=='1' || key=='2' ||key=='3' ||key=='0' ||key=='4' ||key=='5') {
-    int code=int(key-48);
-    pajaros.get(code).startEvent();
+  if (key=='1' || key=='2' ||key=='3') {
+    status=int(key-48);
   }
   if(key>=97 && key <104){
     pajaros.get(key-97).dieEvent();

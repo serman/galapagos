@@ -67,8 +67,14 @@ class pajaro{
   
   void restartValues(){
     println("restaurando " + filename);
-        x1=700;
-        y1=100;
+        if(tipo>=0 && tipo<4){ //derecha
+          x1=700;
+          y1=100;
+        }
+        if(tipo>=4){ //izquierda
+          x1=-100;
+          y1=-100;
+        }
         rotateDie=0;
         pajaro1.stop();
   }
