@@ -5,6 +5,7 @@ void ofApp::setup(){
     ofSetFrameRate(25);
     mapa.loadImage("mapa.png");
     creditos.loadImage("creditos.png");
+    intro.loadImage("intro.png");
     mbarcos.setup();
     mtracking.setup();
     gui=new ofxUICanvas(0,0,200,150);
@@ -50,14 +51,16 @@ void ofApp::update(){
             cheapComm::getInstance()->sendStartWait();
             timeChangeStatus=ofGetElapsedTimeMillis()+3000;
         }
-    }else if(gameStatus==SINJUGADOR && ofGetElapsedTimeMillis()>timeChangeStatus ){
+    }else if(gameStatus==SINJUGADOR  ){
         //TODO
-        helvetica1.drawString("Apunta a los barcos",0,350);
+
         mtracking.update();
-        if(mtracking.checkPointers()==true){
+        if(mtracking.checkPointers()==true && ofGetElapsedTimeMillis()>timeChangeStatus){
             restart();
             cheapComm::getInstance()->sendStart();
+            gameStatus=JUGANDO;
         }
+        
 
 
         
@@ -76,7 +79,7 @@ void ofApp::draw(){
     if(gameStatus==JUGANDO){
         mapa.draw(0,0,1024,768);
         mbarcos.draw();
-        mtracking.drawMatrixVideo();
+        //mtracking.drawMatrixVideo();
         mtracking.draw();
         drawMarcador();
     } else if(gameStatus==FIN){
@@ -92,12 +95,18 @@ void ofApp::draw(){
         
         
     }
+    else if(gameStatus==SINJUGADOR){
+        ofSetColor(255);
+        intro.draw(0,0);
+        
+        mtracking.draw();
+    }
     
 
 }
 
 void ofApp::drawMarcador(){
-    ofSetColor(200);
+    ofSetColor(150);
     helvetica1.drawString("Trayectos en barcazas solares", 150, 40);
     letraGrande.drawString(ofToString(mbarcos.nbarcoSolar*ratioBarcosReales), 450, 45);
     

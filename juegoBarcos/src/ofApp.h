@@ -4,7 +4,7 @@
 #include "barcos.h"
 #include "cameraTracking.h"
 #include "cheapComm.h"
-#define TOTAL_BARCOS 182
+#define TOTAL_BARCOS 20
 #define ratioBarcosReales 100
 #define DIAS_BARCO (365.0/TOTAL_BARCOS)
 //#define TOTAL_BARCOS 200
@@ -30,6 +30,7 @@ class ofApp : public ofBaseApp{
         ofTrueTypeFont helvetica1;
         ofTrueTypeFont letraGrande;
         ofImage mapa;
+            ofImage intro;
         ofxUICanvas *gui;
         int gameStatus;
         float timeChangeStatus;

@@ -13,7 +13,7 @@
 #include "ofxUI.h"
 #include "ofxPS3EyeGrabber.h"
 #include "boxAlign.h"
-//#define EYETOY 1
+#define EYETOY 1
 static bool USE_LIVE_VIDEO =true;
 #define filas 25
 #define columnas 25
@@ -256,7 +256,7 @@ public:
     }
     
     bool checkPointers(){
-        if(contourFinder.nBlobs>1)
+        if(contourFinder.nBlobs>0)
             return true;
         else return false;
         
