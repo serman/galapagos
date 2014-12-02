@@ -82,6 +82,15 @@ void ofApp::draw(){
     } else if(gameStatus==FIN){
 //        helvetica1.drawString("JUEGO TERMINADO",400,300);
         creditos.draw(0, 0);
+        ofTranslate(55,182);
+        
+        helvetica1.drawString("Trayectos en barcaza solar:" + ofToString(mbarcos.nbarcoSolar*ratioBarcosReales) +"("+
+                              ofToString(mbarcos.nbarcoSolar)+")",0,0);
+        
+        helvetica1.drawString("Trayectos en barcaza diesel: "+ ofToString(mbarcos.nbarcoNormal*ratioBarcosReales) +"("+
+                              ofToString(mbarcos.nbarcoNormal)+")",0,30);
+        
+        
     }
     
 
