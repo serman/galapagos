@@ -56,7 +56,7 @@ public void setup() {
      .setPosition(width-100,height-20)
      .setRange(1,200)
      ;
-  //cp5.hide();
+  cp5.hide();
 
 }
 
@@ -118,8 +118,13 @@ void keyPressed() {
   if (key=='1' || key=='2' ||key=='3') {
     status=int(key-48);
   }
-  if(key>=97 && key <104){
+  /*if(key>=97 && key <104){
     pajaros.get(key-97).dieEvent();
+  }*/
+  if(key=='g'){
+    if(cp5.isVisible()) 
+      cp5.show();
+    else cp5.hide();
   }
 }
 
