@@ -40,11 +40,13 @@ public:
         done=false;
         paletaFria.loadImage("paleta_fria.png");//izquierda a derecha
         paletaCaliente.loadImage("paleta_caliente.png");//izquierda a derecha
+
+        
         if(ofRandom(0,1)>0.5){
             xInit=ofRandom(0,20);
             xEnd=ofRandom(game_width,game_width-20);
-            yInit=ofRandom(30,game_height-30);
-            yEnd=ofRandom(MAX(yInit-100,0),MIN(yInit+100,768));
+            yInit=ofRandom(100,game_height-100);
+            yEnd=ofRandom(yInit-100,yInit+100);
             x1=xInit; y1=yInit;
             c_solar=paletaFria.getColor((int)ofRandom(0,paletaFria.width), (int)ofRandom(0,paletaFria.height));
             c_normal=paletaCaliente.getColor((int)ofRandom(0,paletaCaliente.width), (int)ofRandom(0,paletaCaliente.height));
@@ -53,8 +55,8 @@ public:
         else{ //derecha a izquierda
             xEnd=ofRandom(4,20);
             xInit=ofRandom(game_width,game_width-20);
-            yInit=ofRandom(30,game_height-30);
-            yEnd=ofRandom(MAX(yInit-100,0),MIN(yInit+100,768));
+            yInit=ofRandom(100,game_height-100);
+            yEnd=ofRandom(yInit-100,yInit+100);
             x1=xInit; y1=yInit;
             c_solar=paletaFria.getColor((int)ofRandom(0,paletaFria.width), (int)ofRandom(0,paletaFria.height));
             c_normal=paletaCaliente.getColor((int)ofRandom(0,paletaCaliente.width), (int)ofRandom(0,paletaCaliente.height));
@@ -123,6 +125,10 @@ public:
         barcoSolarInv.mirror(false,true);
         barcoNormalInv.loadImage("barconormal.png");
         barcoNormalInv.mirror(false,true);
+        fboLineas.allocate(game_width,game_height);
+        fboLineas.begin();
+        ofClear(0, 0, 0, 0);
+        fboLineas.end();
     }
     
     void update() {
@@ -159,6 +165,20 @@ public:
     }
     
     void draw() {
+       /* ofEnableAlphaBlending();
+        fboLineas.begin();
+        ofSetColor(0,80);
+        ofRect(0, 0, game_width, game_height);
+        ofSetColor(255);
+        
+        for (int i=0; i<barcos.size (); i++) {
+            barcos[i].draw();
+        }
+        
+        fboLineas.end();
+        ofSetColor(255);
+        fboLineas.draw(0,0);
+        */
         for (int i=0; i<barcos.size (); i++) {
             if (barcos[i].type==0) {
                 ofSetColor(255, 255, 255, 255);
@@ -177,7 +197,9 @@ public:
             }
             barcos[i].draw();
         }
-        ofSetColor(255);
+
+        
+            
     }
     
     void checkColision(int x1, int y1) {
@@ -194,6 +216,7 @@ public:
 
     vector <barco> barcos;
         int nbarcoSolar, nbarcoNormal;
+    ofFbo fboLineas;
 private:
 
     long timeNextBoat;

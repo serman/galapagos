@@ -15,13 +15,15 @@ void ofApp::setup(){
     ofSetVerticalSync(true);
    // openCameras();
     helvetica1.loadFont("Helvetica-Bold.otf", 11,true,true);
+        helvetica1.setEncoding(OF_ENCODING_UTF8);
     letraGrande.loadFont("GOTHMBCD.TTF",30,true,true);
-    
+        letraGrande.setEncoding(OF_ENCODING_UTF8);
     cheapComm *myComm;
     myComm=cheapComm::getInstance();
     myComm->setup();
     gameStatus=JUGANDO;
     loadSettings();
+    gui->disable();
 }
 
 //--------------------------------------------------------------
@@ -37,15 +39,15 @@ void ofApp::update(){
         
         if(mbarcos.nbarcoSolar+ mbarcos.nbarcoNormal>TOTAL_BARCOS ){
             gameStatus=FIN;
-            timeChangeStatus=ofGetElapsedTimeMillis()+10000;
+            timeChangeStatus=ofGetElapsedTimeMillis()+18000;
             cheapComm::getInstance()->sendEnd();
         }
     }else if(gameStatus==FIN){
         /*helvetica1.drawString("JUEGO TERMINADO",0,300);
         helvetica1.drawString("Proyecto desarrollado con alumnos de bellas artes de la U.C. del ecuador",0,350);
-        helvetica1.drawString("Dario Rafael Puco Zapata,Santiago C‡rdenas Haro,Paola ArŽvalo Moncayo,\n Luis Alberto Zabala Vaca,Diana Clavijo",0,400);
-        helvetica1.drawString("Programaci—n: Sergio Gal‡n. Coordinaci—n Beatriz Rivela (Iner) ",0,500);
-//        helvetica1.drawString("Dar’o Rafael Puco Zapata",400,400);*/        
+        helvetica1.drawString("Dario Rafael Puco Zapata,Santiago CÃ¡rdenas Haro,Paola ArÃ©valo Moncayo,\n Luis Alberto Zabala Vaca,Diana Clavijo",0,400);
+        helvetica1.drawString("ProgramaciÃ³n: Sergio GalÃ¡n. CoordinaciÃ³n Beatriz Rivela (Iner) ",0,500);
+//        helvetica1.drawString("DarÃ­o Rafael Puco Zapata",400,400);*/        
         if(ofGetElapsedTimeMillis()>timeChangeStatus){
             gameStatus=SINJUGADOR;
             cheapComm::getInstance()->sendStartWait();
@@ -84,14 +86,16 @@ void ofApp::draw(){
         drawMarcador();
     } else if(gameStatus==FIN){
 //        helvetica1.drawString("JUEGO TERMINADO",400,300);
+        ofSetColor(255);
         creditos.draw(0, 0);
-        ofTranslate(55,182);
+        ofTranslate(288,255);
+        ofSetHexColor(0x4ECDC4);
+        helvetica1.drawString("PUNTUACIÃ“N", 0, 0);
+        letraGrande.drawString("Trayectos de barcaza solar: " + ofToString(mbarcos.nbarcoSolar*ratioBarcosReales) +" ("+
+                              ofToString(mbarcos.nbarcoSolar)+")",0,40);
         
-        helvetica1.drawString("Trayectos en barcaza solar:" + ofToString(mbarcos.nbarcoSolar*ratioBarcosReales) +"("+
-                              ofToString(mbarcos.nbarcoSolar)+")",0,0);
-        
-        helvetica1.drawString("Trayectos en barcaza diesel: "+ ofToString(mbarcos.nbarcoNormal*ratioBarcosReales) +"("+
-                              ofToString(mbarcos.nbarcoNormal)+")",0,30);
+        letraGrande.drawString("Trayectos de barcaza diesel: "+ ofToString(mbarcos.nbarcoNormal*ratioBarcosReales) +" ("+
+                              ofToString(mbarcos.nbarcoNormal)+")",0,90);
         
         
     }
@@ -113,8 +117,8 @@ void ofApp::drawMarcador(){
     helvetica1.drawString("Trayectos en barcazas convencionales", 650, 40);
     letraGrande.drawString(ofToString(mbarcos.nbarcoNormal*ratioBarcosReales), 550, 45);
 
-    letraGrande.drawString("DIA " + ofToString(round(( mbarcos.nbarcoNormal + mbarcos.nbarcoSolar ) * DIAS_BARCO)) + " de 365", 50, 730);
-    helvetica1.drawString("1 trayecto del juego son " + ofToString(ratioBarcosReales)  + " trayectos reales", 600, 730);
+    letraGrande.drawString("DÃ­a " + ofToString(round(( mbarcos.nbarcoNormal + mbarcos.nbarcoSolar ) * DIAS_BARCO)) + " de 365", 50, 750);
+    helvetica1.drawString("1 trayecto del juego son " + ofToString(ratioBarcosReales)  + " trayectos reales", 600, 750);
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){

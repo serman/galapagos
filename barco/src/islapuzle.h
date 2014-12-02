@@ -16,6 +16,8 @@
 #include "consts.h"
 #define TOTALCELLS 60
 extern float ratio;
+extern int nsolares;
+extern int nnormales;
 
 class islapuzle{
 public:
@@ -26,7 +28,7 @@ public:
     void setup(){
         light.setPosition(100,500, 100);
         //    light.setDiffuseColor(ofColor::blue);
-        light.setAmbientColor(ofColor::green);
+        //light.setAmbientColor(ofColor::brown);
 //        light.setSpecularColor(ofColor::green);
         rip.allocate(islapuzle_w,islapuzle_h);
         bounce.allocate(islapuzle_w,islapuzle_h);
@@ -42,7 +44,7 @@ public:
         //you can update these rotations later on
  //       squirrelModel.setRotation(0, 90, 1, 0, 0);
 //        squirrelModel.setRotation(1, 300, 0, 0, 1);
-        squirrelModel.setScale(0.5, 0.5, 0.5);
+        squirrelModel.setScale(0.4, 0.4, 0.4);
         //squirrelModel.setPosition(w_width/2, h_height/2, 0);
         
         fboIsla.allocate(islapuzle_w, islapuzle_h);
@@ -108,7 +110,7 @@ public:
         ofFill();
         ofSetColor(ofNoise( ofGetFrameNum() ) * 255 * 5, 255);
         //generamos nueva onda
-        if(ofGetFrameNum()%100==0)
+        if(ofGetFrameNum()%200==0)
             ofEllipse(ofRandom(0,islapuzle_w),ofRandom(0,islapuzle_h), 20,20);
         rip.end();
         rip.update();
@@ -127,8 +129,13 @@ public:
     }
     
     void updateResult(){
-        numCellsDestino=ofMap(ratio,0,1,0,TOTALCELLS);
-        numCellsDestino=ofClamp(numCellsDestino,0,TOTALCELLS);
+        if((nnormales+nsolares)>10){
+            numCellsDestino=ofMap(ratio,0,1,0,TOTALCELLS);
+            numCellsDestino=ofClamp(numCellsDestino,0,TOTALCELLS);
+        }
+        else{
+            numCellsDestino=TOTALCELLS/2;
+        }
     }
     void start(){
         numCellsDestino=TOTALCELLS/2;
@@ -149,11 +156,13 @@ public:
     }
     
     void drawPre(){
-        
+        drawNormal();
     }
     
     void drawPost(){
-        
+                bounce.draw(0,0,islapuzle_w,islapuzle_h);
+        ofSetColor(255);
+        franchise.drawString("Si no se reducen las emisiones \nque provocan el cambio climático \nel aumento del nivel del mar \nprovocará la inundación \nde los hábitats costeros",20,40);
     }
     
     //--------------------------------------------------------------
@@ -176,7 +185,7 @@ public:
          ofSetColor(0);
          ofSphere(cellCentroids[i], cellRadius[i]*0.15);
          }*/
-              light.setAmbientColor(ofColor::green);
+              light.setAmbientColor(ofColor(207,240,158));
         ofTranslate(160, 120);
         ofSetColor(0,127,127);
         ofRotateX(px);
@@ -202,28 +211,29 @@ public:
         ofDisableDepthTest();
         
         //tortuga
-        glPushMatrix();
-        glTranslatef(cellMeshWireframes[0].getVertex(0).x,
-                         cellMeshWireframes[0].getVertex(0).y,
-                         cellMeshWireframes[0].getVertex(0).z);
+        if(numCellsActual>0){
+            glPushMatrix();
+            glTranslatef(cellMeshWireframes[0].getVertex(0).x,
+                             cellMeshWireframes[0].getVertex(0).y,
+                             cellMeshWireframes[0].getVertex(0).z);
 
-        squirrelModel.setRotation(0, tortugaX, 1, 0, 0);
-        squirrelModel.setRotation(1, tortugaY, 0, 1, 0);
-        squirrelModel.setRotation(2, tortugaZ, 0, 0, 1);
-        light.setAmbientColor(ofColor::grey);
-            ofSetColor(255, 255, 255, 255);
-            squirrelModel.draw();
+            squirrelModel.setRotation(0, tortugaX, 1, 0, 0);
+            squirrelModel.setRotation(1, tortugaY, 0, 1, 0);
+            squirrelModel.setRotation(2, tortugaZ, 0, 0, 1);
+                          light.setAmbientColor(ofColor(121,189,154));
+                ofSetColor(255, 255, 255, 255);
+                squirrelModel.draw();
+            
+            glPopMatrix();
         
-        glPopMatrix();
-        
-        
+        }
 
         ofDisableLighting();
         light.disable();
 
         ofPopMatrix();
-  
-        franchise.drawString("CAMBIO CLIMÁTICO",20,20);
+                  ofSetColor(255, 255, 255, 255);
+        franchise.drawString("CAMBIO CLIMÁTICO",20,40);
         glDisable(GL_DEPTH_TEST);
 
         ofSetColor(255);

@@ -58,6 +58,7 @@ void ofApp::setup(){
     
     ofAddListener(gui->newGUIEvent,this,&ofApp::gui2Event);
     gui->loadSettings("settings.xml");
+    gui->disable();
     reset();
     timeLastChange=0;
    // cam.enableMouseInput();
@@ -94,11 +95,16 @@ void ofApp::updateResult(int solar, int normal){
     
     float litros_Petroleo_N_trayectos=  100* (22000/(10*365)) ;  //DIESEL
     float toneladas_CO2_consumido_N_trayectos= 100 * (8.85 / (10*365));  //CO2 EMITIDO por cada barco del juego que representa N trayectos
+    float toneladas_CO2_ahorrado_N_trayectos= 100 * (6.842 / (10*365));  //CO2 EMITIDO por cada barco del juego que representa N trayectos
+    
     litros_petroleo_ahorrado=nsolares*litros_Petroleo_N_trayectos;
+    litros_petroleo_consumido=nnormales*litros_Petroleo_N_trayectos;
+    ton_co2_consumido=nnormales*toneladas_CO2_consumido_N_trayectos;
+    ton_co2_ahorrado=nsolares*toneladas_CO2_ahorrado_N_trayectos;
+
     if(normal>0 || solar>0)
         ratio=(float)solar/(float)(solar+normal);
     else ratio=0;
-    ton_co2_consumido=normal*toneladas_CO2_consumido_N_trayectos;
 
   //  cout << "update updateResult ofApp" << endl ;
 }
@@ -146,10 +152,10 @@ void ofApp::draw(){
         ofTranslate(islapuzle_w+petroleo_w+20, 500);
         ofSetColor(255,ofClamp((ofGetElapsedTimeMillis()-timeLastChange )/10.0,0,255));
         ofRect(0, 0, textos_w, textos_h);
-        ofNoFill();
-        ofSetHexColor(0x9DE0AD);
-        ofSetLineWidth(3);
-            ofRect(0, 0, textos_w, textos_h);
+        //ofNoFill();
+        //ofSetHexColor(0x9DE0AD);
+        //ofSetLineWidth(3);
+        //    ofRect(0, 0, textos_w, textos_h);
         ofFill();
             ofSetColor(0);
         
@@ -158,11 +164,11 @@ void ofApp::draw(){
      //       franchise.drawString("1 Trayectos en el juego \n = X Trayectos Reales",0,90);
 
         // en la pantalla alargada
-            franchise.drawString("XXX Ton Co2 Ahorrado",0,30);
-            franchise.drawString("X Ton Co2 Emitido",0,60);
+            franchise.drawString(ofToString(ton_co2_ahorrado) + " ton CO2 Ahorrado",0,30);
+            franchise.drawString(ofToString(ton_co2_consumido) +" ton CO2 Emitido",0,60);
 
-            franchise.drawString("XXXX Litros de Diesel ahorrado",0,90);
-            franchise.drawString("XXXX Litros de Diesel consumidos",0,120);
+            franchise.drawString(ofToString(litros_petroleo_ahorrado) + " Litros de Diésel ahorrado",0,90);
+            franchise.drawString(ofToString(litros_petroleo_consumido) + " Litros de Diésel consumidos",0,120);
         ofDisableAlphaBlending();
         
         //ESte dato moverlo a la pantalla de juego, cuando termina.
@@ -206,11 +212,16 @@ void ofApp::reset(){
     nnormales=1;
     nsolares=0;
     ratio=0;
-    ton_co2_consumido=0;    
+    ton_co2_consumido=0;
+    litros_petroleo_ahorrado=0;
+    litros_petroleo_consumido=0;
+    ton_co2_ahorrado=0;
+    ton_co2_consumido=0;
 }
 
 void ofApp::start(){
     statusGlobal=RUN; //-> MODO JUEGO
+    reset();
     timeLastChange=ofGetElapsedTimeMillis();
     mpetrol.start();
     isla.start();
@@ -258,18 +269,21 @@ void ofApp::keyPressed(int key){
             gui->disable();
         else gui->enable();
     }
-    if(key=='L'){
+    if(key=='S'){
         gui->saveSettings("settings.xml");
     }
     if(key=='1'){
+        toTransicion();
         statusGlobal=PRE;
         timeLastChange=ofGetElapsedTimeMillis();
     }
     if(key=='2'){
+        start();
         statusGlobal=RUN;
                 timeLastChange=ofGetElapsedTimeMillis();
     }
     if(key=='3'){
+        end();
         statusGlobal=POST;
                 timeLastChange=ofGetElapsedTimeMillis();
         cout << timeLastChange <<endl;

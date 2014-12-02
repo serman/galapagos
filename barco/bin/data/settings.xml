@@ -21,15 +21,30 @@
 <Widget>
     <Kind>4</Kind>
     <Name>tortugaX</Name>
-    <Value>-6.250000000</Value>
+    <Value>-14.583337784</Value>
 </Widget>
 <Widget>
     <Kind>4</Kind>
     <Name>tortugay</Name>
-    <Value>-160.416671753</Value>
+    <Value>-200.000000000</Value>
 </Widget>
 <Widget>
     <Kind>4</Kind>
     <Name>tortugaz</Name>
-    <Value>200.000000000</Value>
+    <Value>83.333328247</Value>
+</Widget>
+<Widget>
+    <Kind>42</Kind>
+    <Name>statusGlobal</Name>
+    <Value>1</Value>
+</Widget>
+<Widget>
+    <Kind>42</Kind>
+    <Name>barcos solares</Name>
+    <Value>73</Value>
+</Widget>
+<Widget>
+    <Kind>42</Kind>
+    <Name>barcos normales</Name>
+    <Value>43</Value>
 </Widget>

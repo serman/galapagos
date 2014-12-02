@@ -59,6 +59,8 @@ class petrol{
         void draw() {
             if(statusGlobal==RUN){
                 drawNormal();
+                ofSetColor(0);
+                ofRect(0, 0, petroleo_w, petroleo_h-ofClamp((ofGetElapsedTimeMillis()-timeLastChange )/15.0, 0, petroleo_h) );
             }
             else if(statusGlobal==PRE){
                 drawPre();
@@ -69,29 +71,33 @@ class petrol{
         }
     
     void drawNormal(){
-        ofSetColor(197,224,220);
+        //ofEnableAlphaBlending();
+        
+
+        ofSetColor(197,224,220 );
         ofRect(0,0,petroleo_w,petroleo_h);
         ofSetColor(255);
+        
         particles.draw();
+      /*          ofDrawBitmapString(ofToString(
+                                              ofClamp((ofGetElapsedTimeMillis()-timeLastChange )/30.0, 0, petroleo_h)
+                                              ), 10,10 );*/
         franchise.drawString("DIÉSEL AHORRADO",20,60);
-
+        franchise.drawString(ofToString(litros_petroleo_ahorrado) + " litros",20,90);
+        //ofDisableAlphaBlending();
+        
+        
     }
     
 
     
     void drawPre(){
-        ofSetColor(0,0,0);
-        //ofRect(0, 0, 640/zoomRatio, 640/zoomRatio);
-        ofSetColor(255, 255, 255);
-        franchise.drawString("drawPre: ",20,30);
+        ofSetColor(0);
+        ofRect(0,0,petroleo_w,petroleo_h);
     }
     
     void drawPost(){
-        ofSetColor(0, 0, 0);
-        //ofRect(0, 0, 640/zoomRatio, 640/zoomRatio);
-       // ofSetColor(255, 255, 255);
-        franchise.drawString("Densidad Co2: ",20,30);
-        //franchise.drawString("altura de la isla: 0.5m",20,60);
+        drawNormal();
     }
     
     void setSizeTon(float tons){
@@ -110,7 +116,7 @@ class petrol{
         currentPetrol=0;
         currentBalls=0;
         particles.destroy();
-        particles.setup(box2d.getWorld(), 10000, 0.0, 5.0, 3.0, ofColor::black);
+        particles.setup(box2d.getWorld(), 10000, 0.0, 4.0, 3.0, ofColor::black);
     }
     
     void start(){

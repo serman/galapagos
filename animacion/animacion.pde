@@ -123,8 +123,8 @@ void keyPressed() {
   }*/
   if(key=='g'){
     if(cp5.isVisible()) 
-      cp5.show();
-    else cp5.hide();
+      cp5.hide();
+    else cp5.show();
   }
 }
 
