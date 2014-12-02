@@ -115,8 +115,11 @@ class petrol{
     void restart(){
         currentPetrol=0;
         currentBalls=0;
-        particles.destroy();
-        particles.setup(box2d.getWorld(), 10000, 0.0, 4.0, 3.0, ofColor::black);
+        //particles.destroy();
+        //particles.setup(box2d.getWorld(), 10000, 0.0, 4.0, 3.0, ofColor::black);
+        for(int j=0; j< particles.getParticleCount(); j++ ){
+            particles.particleSystem->DestroyParticle(j);
+        }
     }
     
     void start(){
