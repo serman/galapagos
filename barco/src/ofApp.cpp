@@ -147,7 +147,7 @@ void ofApp::draw(){
 //*********marcador********
     ofPushMatrix();
     ofPushStyle();
-    if(statusGlobal==RUN){
+    if(statusGlobal==RUN || statusGlobal==POST){
         ofEnableAlphaBlending();
         ofTranslate(islapuzle_w+petroleo_w+20, 500);
         ofSetColor(255,ofClamp((ofGetElapsedTimeMillis()-timeLastChange )/10.0,0,255));
@@ -164,11 +164,11 @@ void ofApp::draw(){
      //       franchise.drawString("1 Trayectos en el juego \n = X Trayectos Reales",0,90);
 
         // en la pantalla alargada
-            franchise.drawString(ofToString(ton_co2_ahorrado) + " ton CO2 Ahorrado",0,30);
-            franchise.drawString(ofToString(ton_co2_consumido) +" ton CO2 Emitido",0,60);
+            franchise.drawString(ofToString(ton_co2_ahorrado) + " ton CO2 Ahorrado",10,30);
+            franchise.drawString(ofToString(ton_co2_consumido) +" ton CO2 Emitido",10,60);
 
-            franchise.drawString(ofToString(litros_petroleo_ahorrado) + " Litros de Diésel ahorrado",0,90);
-            franchise.drawString(ofToString(litros_petroleo_consumido) + " Litros de Diésel consumidos",0,120);
+            franchise.drawString(ofToString(litros_petroleo_ahorrado) + " Litros de Diésel ahorrado",10,90);
+            franchise.drawString(ofToString(litros_petroleo_consumido) + " Litros de Diésel consumidos",10,120);
         ofDisableAlphaBlending();
         
         //ESte dato moverlo a la pantalla de juego, cuando termina.
@@ -286,7 +286,7 @@ void ofApp::keyPressed(int key){
         end();
         statusGlobal=POST;
                 timeLastChange=ofGetElapsedTimeMillis();
-        cout << timeLastChange <<endl;
+       // cout << timeLastChange <<endl;
     }
     mislapuzle.keyPressed(key);
 }

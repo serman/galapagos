@@ -22,6 +22,7 @@ void ofApp::setup(){
     myComm=cheapComm::getInstance();
     myComm->setup();
     gameStatus=JUGANDO;
+    myComm->sendStart();
     loadSettings();
     gui->disable();
 }

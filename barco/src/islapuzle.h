@@ -110,7 +110,7 @@ public:
         ofFill();
         ofSetColor(ofNoise( ofGetFrameNum() ) * 255 * 5, 255);
         //generamos nueva onda
-        if(ofGetFrameNum()%200==0)
+        if(ofGetFrameNum()%100==0)
             ofEllipse(ofRandom(0,islapuzle_w),ofRandom(0,islapuzle_h), 20,20);
         rip.end();
         rip.update();

@@ -26,7 +26,7 @@ void cheapCommRcv::update(){
 		ofxOscMessage m;
 		myosc.getNextMessage(&m);
 		// check for mouse moved message
-        cout << m.getAddress()<<endl;
+        //cout << m.getAddress()<<endl;
         if(m.getAddress()=="/marcador"){
            // ((ofApp*)ofGetAppPtr())->mislapuzle.updateResult(m.getArgAsInt32(0),m.getArgAsInt32(1));
             ((ofApp*)ofGetAppPtr())->updateResult(m.getArgAsInt32(0),m.getArgAsInt32(1));
