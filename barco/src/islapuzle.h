@@ -194,6 +194,8 @@ public:
             ofSetColor(100);
             // cellMeshWireframes[i].draw();
             //        cellMeshWireframes[i].drawFaces();
+            
+            //TODO try y catch para la excepcion de bad Access
             cellMeshWireframes[i].ofMesh::draw( OF_MESH_POINTS);
             ofPopStyle();
         }
